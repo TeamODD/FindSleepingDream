@@ -4,10 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Platform
-  - Obstacle
-  - Table
-  - Enemy
+  - floor
   layers:
   - Default
   - TransparentFX
@@ -15,12 +12,12 @@ TagManager:
   - 
   - Water
   - UI
-  - Obstacle
-  - Platform
-  - Table_leg
-  - Player
-  - enemy
-  - Table
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
