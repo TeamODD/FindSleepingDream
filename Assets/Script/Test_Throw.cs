@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyChase : MonoBehaviour
+public class Test_Throw : MonoBehaviour
 {
     public Transform player;
     public float playerDetectRange = 5f;
@@ -44,7 +44,7 @@ public class EnemyChase : MonoBehaviour
         Vector2 dir = (player.position - transform.position).normalized;
 
         // MoveEnemy에서 동적으로 변하는 moveSpeed 사용!
-        rb.linearVelocity = dir * moveEnemy.CurrentSpeed;
+        rb.linearVelocity = dir * MoveEnemy.CurrentSpeed;
     }
 
     void CheckAndThrowObstacle()

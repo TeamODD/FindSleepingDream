@@ -4,12 +4,12 @@ public class MoveEnemy : MonoBehaviour
 {
     public float minSpeed = 1f;
     public float maxSpeed = 4f;
-    private float moveSpeed;
+    public static float CurrentSpeed { get; private set; }
 
     private float changeInterval;
     private float timer;
 
-    public float CurrentSpeed => moveSpeed; // ✅ 외부에서 읽을 수 있는 속성
+    private bool isChasing = false;  // 추격 중인지 외부에서 설정 가능하게
 
     void Start()
     {
@@ -18,20 +18,33 @@ public class MoveEnemy : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-
         timer += Time.deltaTime;
         if (timer >= changeInterval)
         {
             SetRandomSpeed();
         }
+
+        if (!isChasing)
+        {
+            // 플레이어를 쫓아가지 않을 때는 이동 X (그 자리 유지)
+            return;
+        }
+
+        // 쫓아가는 쪽 로직은 다른 스크립트에서 Rigidbody2D.velocity로 처리
     }
 
     void SetRandomSpeed()
     {
-        moveSpeed = Random.Range(minSpeed, maxSpeed);
-        changeInterval = Random.Range(1f, 3f);
+        CurrentSpeed = Random.Range(minSpeed, maxSpeed);
+        changeInterval = Random.Range(2f, 5f);
         timer = 0f;
-        Debug.Log($"[MoveEnemy] 속도 변경: {moveSpeed:F2} (다음 변경까지 {changeInterval:F1}초)");
+
+        Debug.Log("Speed changed to: " + CurrentSpeed);
+    }
+
+    // 외부에서 호출
+    public void SetChasing(bool value)
+    {
+        isChasing = value;
     }
 }
