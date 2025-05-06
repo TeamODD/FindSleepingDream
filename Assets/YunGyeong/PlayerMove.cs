@@ -4,32 +4,28 @@ using UnityEngine.InputSystem;
 public class PlayerMove : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private InputAction moveAction, jumpAction, sprintAction, crouchAction; // Crouch 액션
+    private InputAction moveAction, jumpAction, sprintAction, crouchAction, interactAction;
     private bool isJumping;
     private Animator animator;
     public float speed = 3f;
     public float sprintMultiplier = 1.5f;
     public float jumpPower = 6f;
-    private float originalScaleY; // 원래 Y 스케일
-    public float crouchScaleY = 0.5f; // 쭈그려앉았을 때 Y 스케일
-    private float originalSpeed; // 원래 속도
-    public float crouchSpeedMultiplier = 0.7f; // 쭈그려앉았을 때 속도 배율
+    private float originalScaleY;
+    public float crouchScaleY = 0.5f;
+    private float originalSpeed;
+    public float crouchSpeedMultiplier = 0.7f;
 
     public float energy = 100f;
     public float GetEnergy() => energy;
 
-
     [Header("조력자 관련")]
-    [Tooltip("따라다니는 조력자 NPC")]
     public Transform helperNPC;
-
-    [Tooltip("조력자와 멀어졌다고 판단하는 거리")]
     public float maxDistanceToHelper = 10f;
 
     [Header("스프린트 설정")]
     public float maxSprintTime = 5f;
     private float currentSprintTime = 0f;
-    private bool canSprint = true; // 이제 실제로 사용함
+    private bool canSprint = true;
 
     private void Awake()
     {
@@ -40,6 +36,8 @@ public class PlayerMove : MonoBehaviour
         jumpAction = InputSystem.actions.FindAction("Jump");
         sprintAction = InputSystem.actions.FindAction("Sprint");
         crouchAction = InputSystem.actions.FindAction("Crouch");
+        interactAction = InputSystem.actions.FindAction("Interact");
+        interactAction.performed += OnInteractPerformed;
 
         originalScaleY = transform.localScale.y;
         originalSpeed = speed;
@@ -50,6 +48,7 @@ public class PlayerMove : MonoBehaviour
     private void OnDestroy()
     {
         jumpAction.performed -= OnJumpPerformed;
+        interactAction.performed -= OnInteractPerformed;
     }
 
     void OnJumpPerformed(InputAction.CallbackContext context)
@@ -59,6 +58,27 @@ public class PlayerMove : MonoBehaviour
         {
             isJumping = true;
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        }
+    }
+
+    // ✅ 태그 기반으로 아이템 감지
+    void OnInteractPerformed(InputAction.CallbackContext context)
+    {
+        Debug.Log("C 키 눌림: 상호작용 시도 중");
+        float interactRadius = 1.5f;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactRadius);
+
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("item")) // 🎯 태그 기반으로 감지
+            {
+                var item = hit.GetComponent<Items>();
+                if (item != null)
+                {
+                    item.Interact();
+                }
+            }
         }
     }
 
@@ -107,7 +127,6 @@ public class PlayerMove : MonoBehaviour
         bool isWalking = moveAction.IsPressed();
         animator.SetBool("Walk", isWalking);
 
-        // 에너지로 canSprint 제어
         if (energy <= 0f)
         {
             canSprint = false;
@@ -128,6 +147,8 @@ public class PlayerMove : MonoBehaviour
             speed = originalSpeed;
         }
 
+
+        
         if (helperNPC != null)
         {
             float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
