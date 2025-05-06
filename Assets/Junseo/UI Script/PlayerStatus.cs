@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
 {
-    public int energy = 50; // 에너지 값 (Inspector에서 조절)
+    public float energy = 100f;
 
-    public int GetEnergy() => energy;
+    public float GetEnergy() => energy;
 
-    public void UseEnergy(int amount)
+    public void UseEnergy(float amount)
     {
-        energy = Mathf.Max(0, energy - amount); // 0 밑으로 안 떨어지게
+        energy = Mathf.Max(0f, energy - amount);
+        Debug.Log("Energy: " + energy); // ← 로그 확인용!
     }
 }

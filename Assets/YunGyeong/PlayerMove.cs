@@ -14,6 +14,9 @@ public class PlayerMove : MonoBehaviour
     public float crouchScaleY = 0.5f; // 쭈그려앉았을 때 Y 스케일
     private float originalSpeed; // 원래 속도
     public float crouchSpeedMultiplier = 0.7f; // 쭈그려앉았을 때 속도 배율
+    private PlayerStatus status; // 에너지 상태 참조
+
+
 
     [Header("조력자 관련")]
     [Tooltip("따라다니는 조력자 NPC")]
@@ -24,6 +27,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake() // Start 대신 Awake에서 액션에 이벤트 핸들러 등록
     {
+        status = GetComponent<PlayerStatus>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
@@ -59,6 +63,20 @@ public class PlayerMove : MonoBehaviour
     {
         var moveValue = moveAction.ReadValue<Vector2>().x;
         float currentSpeed = speed;
+
+        if (sprintAction.IsPressed() && moveValue != 0)
+        {
+            currentSpeed *= sprintMultiplier;
+
+            // 에너지 소모 추가
+            if (status != null)
+            {
+                status.UseEnergy(1); // 1씩 소모 (속도 조절은 나중에 가능)
+            }
+        }
+
+
+
 
         if (sprintAction.IsPressed() && moveValue != 0)
         {
