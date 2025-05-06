@@ -4,23 +4,23 @@ public class Helper : MonoBehaviour
 {
     [Tooltip("이동 속도")]
     public float moveSpeed = 4f;
-    [Tooltip("이동 방향 (Vector2)")]
-    public Vector2 moveDirection = Vector2.right; // 기본적으로 오른쪽으로 이동
+    [Tooltip("앞으로 이동할 방향")]
+    public Vector2 moveDirection = Vector2.right;
 
-    [Tooltip("플레이어를 감지할 최대 거리 (이 거리 이상 멀어지면 멈춤)")]
+    [Tooltip("플레이어가 따라오지 않는다고 판단할 거리")]
     public float maxDistanceToPlayer = 8f;
-    [Tooltip("플레이어가 다시 따라올 거리 (이 거리 이하로 가까워지면 다시 이동)")]
-    public float minDistanceToPlayer = 5f;
-    [Tooltip("플레이어를 향해 다가갈 목표 거리")]
-    public float approachDistance = 2.5f; // 추가
-    [Tooltip("기다리는 시간 (초)")]
-    public float waitingTime = 3f; // 추가
+    [Tooltip("되돌아가서 기다리는 거리")]
+    public float returnDistance = 3f;
+    [Tooltip("플레이어가 다시 움직였다고 판단할 최소 속도")]
+    public float playerMoveThreshold = 0.1f;
 
     private Rigidbody2D rb;
     private Animator animator;
     private Transform playerTransform;
-    private bool isWaiting = false; // 현재 기다리는 상태인지 여부
-    private float waitTimer = 0f; // 추가
+    private Rigidbody2D playerRb;
+
+    private enum State { Forward, Returning }
+    private State currentState = State.Forward;
 
     void Start()
     {
@@ -33,11 +33,11 @@ public class Helper : MonoBehaviour
             rb.gravityScale = 0f;
         }
 
-        // 시작 시 플레이어 찾기 (Tag로 검색)
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             playerTransform = player.transform;
+            playerRb = player.GetComponent<Rigidbody2D>();
         }
         else
         {
@@ -48,43 +48,51 @@ public class Helper : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (playerTransform == null) return;
+        if (playerTransform == null || playerRb == null) return;
 
-        // 플레이어와의 거리 계산
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        float playerSpeed = Mathf.Abs(playerRb.linearVelocity.x);
 
-        if (isWaiting)
+        switch (currentState)
         {
-            waitTimer += Time.fixedDeltaTime;
-            if (waitTimer >= waitingTime)
-            {
-                isWaiting = false;
-                waitTimer = 0f;
-            }
-            rb.linearVelocity = Vector2.zero;
-            if (animator != null) animator.SetBool("IsWalking", false);
+            case State.Forward:
+                // 플레이어가 안 따라오고 멈춰있으면 돌아감
+                if (distanceToPlayer > maxDistanceToPlayer && playerSpeed < playerMoveThreshold)
+                {
+                    currentState = State.Returning;
+                }
+                else
+                {
+                    MoveInDirection(moveDirection);
+                }
+                break;
+
+            case State.Returning:
+                // 플레이어가 다시 움직이기 시작하면 다시 앞으로 감
+                if (playerSpeed >= playerMoveThreshold)
+                {
+                    currentState = State.Forward;
+                }
+                else
+                {
+                    // 플레이어에게 다가감
+                    Vector2 dirToPlayer = (playerTransform.position - transform.position).normalized;
+                    MoveInDirection(dirToPlayer);
+
+                    // 너무 가까워지면 멈춤
+                    if (distanceToPlayer < returnDistance)
+                    {
+                        rb.linearVelocity = Vector2.zero;
+                        if (animator != null) animator.SetBool("IsWalking", false);
+                    }
+                }
+                break;
         }
-        // 플레이어가 너무 멀리 떨어져 있고, 아직 기다리는 상태가 아니면 멈춤
-        else if (distanceToPlayer > maxDistanceToPlayer)
-        {
-            rb.linearVelocity = Vector2.zero;
-            if (animator != null) animator.SetBool("IsWalking", false);
-            isWaiting = true;
-            waitTimer = 0f; // 기다리기 시작할 때 타이머 초기화
-        }
-        // 플레이어가 다시 따라올 거리 안으로 들어오면 다시 이동
-        else if (distanceToPlayer > approachDistance) // 목표 거리보다 멀리 있으면 따라감
-        {
-            Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
-            rb.linearVelocity = directionToPlayer * moveSpeed;
-            if (animator != null) animator.SetBool("IsWalking", true);
-        }
-        else // 플레이어와 목표 거리 이내에 있으면 멈추고 기다림
-        {
-            rb.linearVelocity = Vector2.zero;
-            if (animator != null) animator.SetBool("IsWalking", false);
-            isWaiting = true;
-            waitTimer = 0f;
-        }
+    }
+
+    private void MoveInDirection(Vector2 dir)
+    {
+        rb.linearVelocity = dir.normalized * moveSpeed;
+        if (animator != null) animator.SetBool("IsWalking", true);
     }
 }
