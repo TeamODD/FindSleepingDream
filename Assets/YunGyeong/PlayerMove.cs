@@ -15,6 +15,13 @@ public class PlayerMove : MonoBehaviour
     private float originalSpeed; // 원래 속도
     public float crouchSpeedMultiplier = 0.7f; // 쭈그려앉았을 때 속도 배율
 
+    [Header("조력자 관련")]
+    [Tooltip("따라다니는 조력자 NPC")]
+    public Transform helperNPC; // 이 변수가 없어서 오류 발생
+
+    [Tooltip("조력자와 멀어졌다고 판단하는 거리")]
+    public float maxDistanceToHelper = 10f; // 이 변수가 없어서 오류 발생
+
     private void Awake() // Start 대신 Awake에서 액션에 이벤트 핸들러 등록
     {
         rb = GetComponent<Rigidbody2D>();
@@ -104,6 +111,16 @@ public class PlayerMove : MonoBehaviour
             // Z 키에서 손을 떼면 원래 Y 스케일과 속도로 복원
             transform.localScale = new Vector3(transform.localScale.x, originalScaleY, transform.localScale.z);
             speed = originalSpeed;
+        }
+
+        // [기존에 오류가 발생했던 부분 수정]
+        if (helperNPC != null)
+        {
+            float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
+            if (distanceToHelper > maxDistanceToHelper)
+            {
+                Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
+            }
         }
     }
 
