@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Platform
-  - Chair
-  - Book
-  - Monkey
+  - Obstacle
+  - Table
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -52,7 +52,7 @@ public class EnemyChase : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, throwCheckRadius);
         foreach (var hit in hits)
         {
-            if (hit.CompareTag("Chair") || hit.CompareTag("Monkey") || hit.CompareTag("Book"))
+            if (hit.CompareTag("Obstacle"))
             {
                 ThrowObject(hit.gameObject);
                 break;
@@ -67,11 +67,18 @@ public class EnemyChase : MonoBehaviour
         {
             rbObstacle.isKinematic = false;
 
+            // 던졌다는 표시 붙이기
+            if (obstacle.GetComponent<Highlight>() == null)
+            {
+                obstacle.AddComponent<Highlight>();
+            }
+
             Vector2 playerTop = (Vector2)player.position + Vector2.up * 0.5f;
             Vector2 playerBot = (Vector2)player.position + Vector2.down * 0.5f;
             Vector2[] targets = { playerTop, playerBot };
             Vector2 targetPos = targets[Random.Range(0, targets.Length)];
             Vector2 throwDir = (targetPos - (Vector2)obstacle.transform.position).normalized;
+
             rbObstacle.AddForce(throwDir * throwForce, ForceMode2D.Impulse);
         }
 
