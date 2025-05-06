@@ -6,6 +6,7 @@ TagManager:
   tags:
   - floor
   - Helper
+  - item
   layers:
   - Default
   - TransparentFX
