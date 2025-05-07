@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic; // 인벤토리용
 
 public class PlayerMove : MonoBehaviour
 {
@@ -26,6 +27,13 @@ public class PlayerMove : MonoBehaviour
     public float maxSprintTime = 5f;
     private float currentSprintTime = 0f;
     private bool canSprint = true;
+
+    // =============================
+    // ✅ 인벤토리 관련 변수 추가
+    private HashSet<string> keyItems = new HashSet<string>();
+    private int dreamShardCount = 0;
+    private GameObject throwableItemPrefab = null;
+    // =============================
 
     private void Awake()
     {
@@ -61,7 +69,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    // ✅ 태그 기반으로 아이템 감지
     void OnInteractPerformed(InputAction.CallbackContext context)
     {
         Debug.Log("C 키 눌림: 상호작용 시도 중");
@@ -71,9 +78,9 @@ public class PlayerMove : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            if (hit.CompareTag("item")) // 🎯 태그 기반으로 감지
+            if (hit.CompareTag("item"))
             {
-                var item = hit.GetComponent<Items>();
+                var item = hit.GetComponent<IInteractable>();
                 if (item != null)
                 {
                     item.Interact();
@@ -147,8 +154,6 @@ public class PlayerMove : MonoBehaviour
             speed = originalSpeed;
         }
 
-
-        
         if (helperNPC != null)
         {
             float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
@@ -171,4 +176,49 @@ public class PlayerMove : MonoBehaviour
     {
         energy = Mathf.Max(0f, energy - amount);
     }
+
+    // =============================
+    // ✅ 인벤토리용 공개 메서드들 추가
+    public void CollectItem(string itemName)
+    {
+        keyItems.Add(itemName);
+        Debug.Log($"[인벤토리] {itemName} 획득됨");
+    }
+
+    public bool HasItem(string itemName)
+    {
+        return keyItems.Contains(itemName);
+    }
+
+    public void AddDreamShard()
+    {
+        dreamShardCount++;
+        Debug.Log($"[인벤토리] 꿈조각 수: {dreamShardCount}");
+    }
+
+    public int GetDreamShardCount()
+    {
+        return dreamShardCount;
+    }
+
+    public void SetThrowableItem(GameObject prefab)
+    {
+        throwableItemPrefab = prefab;
+    }
+
+    public bool HasThrowable()
+    {
+        return throwableItemPrefab != null;
+    }
+
+    public void Throw()
+    {
+        if (throwableItemPrefab != null)
+        {
+            GameObject go = Instantiate(throwableItemPrefab, transform.position + Vector3.right, Quaternion.identity);
+            go.GetComponent<Rigidbody2D>()?.AddForce(Vector2.right * 5f, ForceMode2D.Impulse);
+            throwableItemPrefab = null;
+        }
+    }
+    // =============================
 }
