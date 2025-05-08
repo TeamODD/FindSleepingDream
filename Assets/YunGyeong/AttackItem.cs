@@ -1,63 +1,120 @@
-using System.Threading;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(SpriteRenderer))]
 public class AttackItem : MonoBehaviour
 {
-    public Transform target; // 타겟
-    public float delayBeforeThrow = 0.5f; // 잠깐 숨기고 날아가기 전 딜레이
-    public float throwForce = 15f;
-    public float arcHeight = 15f; // 포물선 높이 조절용
-    private bool isThrown = false;
+    [Header("기본 설정")]
+    public float speed = 15f;
+    public float activeDuration = 5f; // 활성화 후 자동 소멸 시간 (선택 사항)
 
-    private SpriteRenderer sr;
+    [Header("타겟 설정")]
+    public bool targetNearestMonster = true; // 가장 가까운 몬스터 자동 타겟팅 여부
+    public Transform manualTarget; // 수동으로 설정할 타겟 (자동 타겟팅 비활성화 시 사용)
+    public bool flyLeftIfNoTarget = false; // 타겟 없을 시 왼쪽으로 날아갈지 여부
+
     private Rigidbody2D rb;
     private Collider2D col;
+    private SpriteRenderer sr;
+    private bool isActive = false;
+    private Transform target;
+    private bool isUsed = false;
+    public bool IsUsed => isUsed;
 
     private void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        sr = GetComponent<SpriteRenderer>();
+
+        rb.bodyType = RigidbodyType2D.Kinematic; // 처음엔 물리 영향 받지 않음
+        rb.gravityScale = 0f;
+        col.isTrigger = true; // 처음엔 트리거 상태
     }
 
-    public void StartThrowToTarget()
+    private void Update()
     {
-        if (isThrown || target == null) return;
-        isThrown = true;
-        StartCoroutine(ThrowRoutine());
+        if (isActive) return; // 이미 활성화된 아이템은 더 이상 입력 감지 안 함
     }
 
-    private System.Collections.IEnumerator ThrowRoutine()
+    public void Activate()
     {
-        // 1. 기물 숨기기
-        sr.enabled = false;
-        col.enabled = false;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        yield return new WaitForSeconds(delayBeforeThrow);
+        if (isActive || isUsed) return;
+        isActive = true;
+        isUsed = true;
 
-        // 2. 위치 유지하면서 다시 보이기
-        sr.enabled = true;
-        col.enabled = true;
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Dynamic; // 물리 활성화
+        col.isTrigger = false; // 충돌 감지 활성화
 
-        // 3. 포물선 계산
-        Vector2 dir = (target.position - transform.position);
-        float distance = dir.magnitude;
-
-        float vx = dir.x * throwForce / distance;
-        float vy = arcHeight;
-
-        Vector2 launchVelocity = new Vector2(vx, vy);
-        rb.AddForce(launchVelocity, ForceMode2D.Impulse);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Monster"))
+        // 타겟 설정
+        if (targetNearestMonster)
         {
-            collision.GetComponent<MonsterDummy>()?.Stun();
-            Destroy(gameObject); // 닿으면 완전 삭제!
+            target = FindNearestMonster();
+        }
+        else
+        {
+            target = manualTarget;
+        }
+
+        // 이동 방향 설정
+        Vector2 direction;
+        if (target != null)
+        {
+            direction = (target.position - transform.position).normalized;
+        }
+        else if (flyLeftIfNoTarget)
+        {
+            direction = Vector2.left;
+        }
+        else
+        {
+            Debug.LogWarning("[AttackItem] 활성화되었지만 타겟이 없어 움직이지 않습니다.");
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        rb.linearVelocity = direction * speed;
+
+        // 활성화 후 자동 소멸 (선택 사항)
+        if (activeDuration > 0)
+        {
+            Destroy(gameObject, activeDuration);
+        }
+    }
+
+    private Transform FindNearestMonster()
+    {
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
+        Transform nearest = null;
+        float minDist = Mathf.Infinity;
+
+        foreach (GameObject m in monsters)
+        {
+            float dist = Vector2.Distance(transform.position, m.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearest = m.transform;
+            }
+        }
+        return nearest;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) // 트리거 충돌 대신 물리 충돌 감지
+    {
+        if (isActive && collision.gameObject.CompareTag("Monster"))
+        {
+            MonsterDummy monster = collision.gameObject.GetComponent<MonsterDummy>();
+            if (monster != null)
+            {
+                monster.Stun(1f); // 1초 스턴
+            }
+            Destroy(gameObject); // 몬스터에 닿으면 즉시 사라짐
+        }
+        // 몬스터가 아닌 다른 오브젝트와 충돌했을 때의 처리 (선택 사항)
+        else if (isActive && !collision.gameObject.CompareTag("Monster") && !collision.collider.isTrigger)
+        {
+            Destroy(gameObject);
         }
     }
 }

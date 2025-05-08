@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     public float sprintMultiplier = 1.5f;
     public float jumpPower = 6f;
     private float originalScaleY;
-    public float crouchScaleY = 0.5f;
+    public float crouchScaleY = 2f;
     private float originalSpeed;
     public float crouchSpeedMultiplier = 0.7f;
 
@@ -105,24 +105,17 @@ public class PlayerMove : MonoBehaviour
                     item.Interact();
                 }
             }
+
             if (hit.CompareTag("AttackItem"))
             {
-                var item = hit.GetComponent<AttackItem>();
-                if (item != null)
+                var attackItem = hit.GetComponent<AttackItem>();
+                if (attackItem != null && !attackItem.IsUsed)
                 {
-                    Transform nearestMonster = FindNearestMonster(); // 앞에서 썼던 함수
-                    item.target = nearestMonster;
-                    item.StartThrowToTarget();
+                    attackItem.Activate();
                 }
             }
         }
-
-
-
     }
-
-
-
 
     private void FixedUpdate()
     {
