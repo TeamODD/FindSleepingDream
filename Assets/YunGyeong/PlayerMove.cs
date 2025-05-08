@@ -69,6 +69,25 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    private Transform FindNearestMonster()
+    {
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
+        Transform nearest = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (GameObject monster in monsters)
+        {
+            float dist = Vector2.Distance(transform.position, monster.transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                nearest = monster.transform;
+            }
+        }
+
+        return nearest;
+    }
+
     void OnInteractPerformed(InputAction.CallbackContext context)
     {
         Debug.Log("C 키 눌림: 상호작용 시도 중");
@@ -86,8 +105,24 @@ public class PlayerMove : MonoBehaviour
                     item.Interact();
                 }
             }
+            if (hit.CompareTag("AttackItem"))
+            {
+                var item = hit.GetComponent<AttackItem>();
+                if (item != null)
+                {
+                    Transform nearestMonster = FindNearestMonster(); // 앞에서 썼던 함수
+                    item.target = nearestMonster;
+                    item.StartThrowToTarget();
+                }
+            }
         }
+
+
+
     }
+
+
+
 
     private void FixedUpdate()
     {
