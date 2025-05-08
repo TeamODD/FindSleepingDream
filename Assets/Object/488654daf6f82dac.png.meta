@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: f2cd4a963604a104d87d5b32cfd15712
+guid: 38944189a2bb00149811a32fa8981ccb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2690692623662643339
-    second: "\uCC45\uC0C1\uB2E4\uB9AC\uC624\uB978\uCABD_0"
+      213: -5698582614243262572
+    second: 488654daf6f82dac_0
+  - first:
+      213: 5200606878290072758
+    second: 488654daf6f82dac_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +78,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -139,13 +142,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uCC45\uC0C1\uB2E4\uB9AC\uC624\uB978\uCABD_0"
+      name: 488654daf6f82dac_0
       rect:
         serializedVersion: 2
-        x: 720
-        y: 203
-        width: 65
-        height: 349
+        x: 0
+        y: 120
+        width: 246
+        height: 78
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +157,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 57703de805db8aad0800000000000000
-      internalID: -2690692623662643339
+      spriteID: 49f30d20e419ae0b0800000000000000
+      internalID: -5698582614243262572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 488654daf6f82dac_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 192
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b4deecd6644c2840800000000000000
+      internalID: 5200606878290072758
       vertices: []
       indices: 
       edges: []
@@ -174,7 +199,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uCC45\uC0C1\uB2E4\uB9AC\uC624\uB978\uCABD_0": -2690692623662643339
+      488654daf6f82dac_0: -5698582614243262572
+      488654daf6f82dac_1: 5200606878290072758
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
