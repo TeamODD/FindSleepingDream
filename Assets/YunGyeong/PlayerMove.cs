@@ -221,4 +221,22 @@ public class PlayerMove : MonoBehaviour
         }
     }
     // =============================
+
+    // =============================
+    // ✅ 기물에 맞았을 때 죽는 기능
+    private bool isDead = false;
+
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (rb != null)
+            rb.simulated = false;
+
+        animator.SetBool("Walk", false);
+
+        Debug.Log("[Player] 플레이어가 기물에 맞아 죽었습니다.");
+    }
+    // =============================
 }
