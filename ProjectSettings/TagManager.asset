@@ -7,6 +7,8 @@ TagManager:
   - floor
   - Helper
   - item
+  - AttackItem
+  - Monster
   layers:
   - Default
   - TransparentFX
