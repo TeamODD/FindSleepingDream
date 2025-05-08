@@ -1,5 +1,5 @@
 public interface PlayerStatusInterface
 {
-    float GetEnergy();             // ¿¡³ÊÁö °ª °¡Á®¿À±â
-    void UseEnergy(float amount); // ¿¡³ÊÁö »ç¿ë
+    float GetEnergy();             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    void UseEnergy(float amount); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 }

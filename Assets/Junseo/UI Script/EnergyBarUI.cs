@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class EnergyBarUI : MonoBehaviour
 {
-    public Image barFillImage;                  // Ã¤¿öÁö´Â ÀÌ¹ÌÁö
-    public MonoBehaviour playerStatusProvider;  // ¿¡³ÊÁö °ªÀ» Á¦°øÇÏ´Â ¿ÀºêÁ§Æ®
+    public Image barFillImage;                  // Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    public MonoBehaviour playerStatusProvider;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
     private PlayerStatusInterface playerStatus;
 
@@ -14,11 +14,11 @@ public class EnergyBarUI : MonoBehaviour
 
         if (playerStatus == null)
         {
-            Debug.LogError("[EnergyBarUI] PlayerStatusInterface Ä³½ºÆÃ ½ÇÆÐÇÔ!");
+            Debug.LogError("[EnergyBarUI] PlayerStatusInterface Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!");
         }
         else
         {
-            Debug.Log("[EnergyBarUI] Ä³½ºÆÃ ¼º°ø, ¿¡³ÊÁö: " + playerStatus.GetEnergy());
+            Debug.Log("[EnergyBarUI] Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: " + playerStatus.GetEnergy());
         }
     }
 
@@ -26,10 +26,10 @@ public class EnergyBarUI : MonoBehaviour
     {
         if (playerStatus != null)
         {
-            float energy = playerStatus.GetEnergy();             // ¿¡³ÊÁö °ª ¹Þ¾Æ¿À±â (¿¹: 75)
-            float ratio = Mathf.Clamp01(energy / 100f);          // 0~1 »çÀÌ·Î º¯È¯
+            float energy = playerStatus.GetEnergy();             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ (ï¿½ï¿½: 75)
+            float ratio = Mathf.Clamp01(energy / 100f);          // 0~1 ï¿½ï¿½ï¿½Ì·ï¿½ ï¿½ï¿½È¯
             Debug.Log($"[EnergyBarUI] energy: {energy}, ratio: {ratio}");
-            barFillImage.fillAmount = ratio;                     // ÀÌ¹ÌÁö ¹Ù Ã¤¿ì±â
+            barFillImage.fillAmount = ratio;                     // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½
         }
     }
 }
