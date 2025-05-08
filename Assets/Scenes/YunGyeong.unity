@@ -133,11 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6873590894677615454, guid: e428f1808acd90447b2e3f145ce6cc33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.32
+      value: -3.27
       objectReference: {fileID: 0}
     - target: {fileID: 6873590894677615454, guid: e428f1808acd90447b2e3f145ce6cc33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.72
+      value: -8.21
       objectReference: {fileID: 0}
     - target: {fileID: 6873590894677615454, guid: e428f1808acd90447b2e3f145ce6cc33, type: 3}
       propertyPath: m_LocalPosition.z
@@ -190,11 +190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.72
+      value: -7.14
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.2
+      value: -2.84
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.z
@@ -255,6 +255,7 @@ GameObject:
   - component: {fileID: 710122362}
   - component: {fileID: 710122361}
   - component: {fileID: 710122365}
+  - component: {fileID: 710122366}
   m_Layer: 0
   m_Name: Helper
   m_TagString: Helper
@@ -300,7 +301,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.16, y: 1.61}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -334,7 +335,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!212 &710122363
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -379,8 +380,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: -5765352877454539426, guid: 41de62ebc9e9cbd46b8f04a2993685d8, type: 3}
+  m_Color: {r: 0.33018857, g: 1, b: 0.35229522, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -399,8 +400,8 @@ Transform:
   m_GameObject: {fileID: 710122360}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.1, y: -8.07, z: 0}
-  m_LocalScale: {x: 0.9202, y: 2.5694, z: 1}
+  m_LocalPosition: {x: 6.8879, y: -2.8073, z: 0}
+  m_LocalScale: {x: 1.9878986, y: 1.962121, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -417,11 +418,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c02bb3b9ba38f754785061dc152a3a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 2.8
   moveDirection: {x: 1, y: 0}
   maxDistanceToPlayer: 8
-  returnDistance: 3
+  returnDistance: 6
   playerMoveThreshold: 0.1
+--- !u!95 &710122366
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710122360}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b4b8b104df1d0cc40bec7499f92b7865, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &844613224
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,7 +680,7 @@ Transform:
   m_GameObject: {fileID: 922446202}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.27, y: -1.45, z: 0}
+  m_LocalPosition: {x: -11.17, y: -6.07, z: 0}
   m_LocalScale: {x: 0.9685, y: 5.437, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

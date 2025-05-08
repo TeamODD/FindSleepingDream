@@ -3,14 +3,14 @@ using UnityEngine;
 public class Helper : MonoBehaviour
 {
     [Tooltip("이동 속도")]
-    public float moveSpeed = 4f;
+    public float moveSpeed = 2.8f;
     [Tooltip("앞으로 이동할 방향")]
     public Vector2 moveDirection = Vector2.right;
 
     [Tooltip("플레이어가 따라오지 않는다고 판단할 거리")]
-    public float maxDistanceToPlayer = 8f;
+    public float maxDistanceToPlayer = 6f;
     [Tooltip("되돌아가서 기다리는 거리")]
-    public float returnDistance = 3f;
+    public float returnDistance = 12f;
     [Tooltip("플레이어가 다시 움직였다고 판단할 최소 속도")]
     public float playerMoveThreshold = 0.1f;
 
@@ -56,7 +56,6 @@ public class Helper : MonoBehaviour
         switch (currentState)
         {
             case State.Forward:
-                // 플레이어가 안 따라오고 멈춰있으면 돌아감
                 if (distanceToPlayer > maxDistanceToPlayer && playerSpeed < playerMoveThreshold)
                 {
                     currentState = State.Returning;
@@ -68,18 +67,15 @@ public class Helper : MonoBehaviour
                 break;
 
             case State.Returning:
-                // 플레이어가 다시 움직이기 시작하면 다시 앞으로 감
                 if (playerSpeed >= playerMoveThreshold)
                 {
                     currentState = State.Forward;
                 }
                 else
                 {
-                    // 플레이어에게 다가감
                     Vector2 dirToPlayer = (playerTransform.position - transform.position).normalized;
                     MoveInDirection(dirToPlayer);
 
-                    // 너무 가까워지면 멈춤
                     if (distanceToPlayer < returnDistance)
                     {
                         rb.linearVelocity = Vector2.zero;
@@ -88,11 +84,25 @@ public class Helper : MonoBehaviour
                 }
                 break;
         }
+
+        // ✅ 애니메이션 상태 처리 (걷고 있는지 여부)
+        if (animator != null)
+        {
+            bool isMoving = rb.linearVelocity.magnitude > 0.01f;
+            animator.SetBool("IsWalking", isMoving);
+        }
+
+        // ✅ 좌우 반전 처리
+        if (rb.linearVelocity.x != 0)
+        {
+            float scaleX = Mathf.Sign(rb.linearVelocity.x) * Mathf.Abs(transform.localScale.x);
+            transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     private void MoveInDirection(Vector2 dir)
     {
         rb.linearVelocity = dir.normalized * moveSpeed;
-        if (animator != null) animator.SetBool("IsWalking", true);
+        // 걷기 애니메이션은 FixedUpdate()에서 처리됨
     }
 }
