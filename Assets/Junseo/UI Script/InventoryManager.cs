@@ -27,6 +27,7 @@ public class InventoryManager : MonoBehaviour, InventoryManagerInterface
         UpdateUI(); // 추가 시 UI 갱신
     }
 
+
     public void UseItem(string itemName)
     {
         if (HasItem(itemName))
