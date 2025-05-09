@@ -22,6 +22,7 @@ public class InventoryUI : MonoBehaviour
     // 외부에서 호출하여 현재 상태에 맞게 UI 갱신
     public void UpdateUI(InventoryManagerInterface inventory)
     {
+        Debug.Log("[InventoryUI] UI 갱신 호출됨");
         // 열쇠와 담요는 보유 여부만 반영
         slotKey.enabled = inventory.HasItem("Key");
         slotBlanket.enabled = inventory.HasItem("Blanket");
