@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     private float originalScaleY;
     public float crouchScaleY = 2f;
     private float originalSpeed;
+    public InventoryManager inventoryManager;
 
     public float crouchSpeedMultiplier = 0.7f;
 
@@ -200,6 +201,7 @@ public class PlayerMove : MonoBehaviour
     {
         keyItems.Add(itemName);
         Debug.Log($"[인벤토리] {itemName} 획득됨");
+        inventoryManager?.AddItem(itemName); //  for UI
     }
 
     public bool HasItem(string itemName)
@@ -211,6 +213,8 @@ public class PlayerMove : MonoBehaviour
     {
         dreamShardCount++;
         Debug.Log($"[인벤토리] 꿈조각 수: {dreamShardCount}");
+
+        inventoryManager?.AddItem("Star");
     }
 
     public int GetDreamShardCount()
