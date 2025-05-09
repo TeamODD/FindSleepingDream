@@ -14,10 +14,8 @@ public class PlayerMove : MonoBehaviour
     private float originalScaleY;
     public float crouchScaleY = 2f;
     private float originalSpeed;
-    public float crouchSpeedMultiplier = 0.7f;
 
-    public float energy = 100f;
-    public float GetEnergy() => energy;
+    public float crouchSpeedMultiplier = 0.7f;
 
     [Header("조력자 관련")]
     public Transform helperNPC;
@@ -26,7 +24,7 @@ public class PlayerMove : MonoBehaviour
     [Header("스프린트 설정")]
     public float maxSprintTime = 5f;
     private float currentSprintTime = 0f;
-    private bool canSprint = true;
+    private PlayerStatus status;
 
     // =============================
     // ✅ 인벤토리 관련 변수 추가
@@ -35,8 +33,9 @@ public class PlayerMove : MonoBehaviour
     private GameObject throwableItemPrefab = null;
     // =============================
 
-    private void Awake()
+    private void Start()
     {
+        status = GetComponent<PlayerStatus>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
@@ -51,6 +50,10 @@ public class PlayerMove : MonoBehaviour
         originalSpeed = speed;
 
         jumpAction.performed += OnJumpPerformed;
+        if(status == null)
+        {
+            Debug.LogError("[PlayerMove] PlayerStatus 컴포넌트를 찾을 수 없습니다.");
+        }
     }
 
     private void OnDestroy()
@@ -122,10 +125,10 @@ public class PlayerMove : MonoBehaviour
         var moveValue = moveAction.ReadValue<Vector2>().x;
         float currentSpeed = speed;
 
-        if (sprintAction.IsPressed() && moveValue != 0 && energy > 0 && canSprint)
+        if (sprintAction.IsPressed() && moveValue != 0 && status.GetEnergy()>0)
         {
             currentSpeed *= sprintMultiplier;
-            UseEnergy(20f * Time.fixedDeltaTime);
+            status.StartDepletion();
             currentSprintTime += Time.fixedDeltaTime;
 
             if (currentSprintTime >= maxSprintTime)
@@ -136,7 +139,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             currentSprintTime = Mathf.Max(0f, currentSprintTime - Time.fixedDeltaTime);
-            energy = Mathf.Min(energy + 10f * Time.fixedDeltaTime, 100f);
+            status.StopDepletion();
         }
 
         rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
@@ -161,15 +164,7 @@ public class PlayerMove : MonoBehaviour
     {
         bool isWalking = moveAction.IsPressed();
         animator.SetBool("Walk", isWalking);
-
-        if (energy <= 0f)
-        {
-            canSprint = false;
-        }
-        else if (energy >= 100f)
-        {
-            canSprint = true;
-        }
+        Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
 
         if (crouchAction.IsPressed())
         {
@@ -200,13 +195,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void UseEnergy(float amount)
-    {
-        energy = Mathf.Max(0f, energy - amount);
-    }
-
-    // =============================
-    // ✅ 인벤토리용 공개 메서드들 추가
+    
     public void CollectItem(string itemName)
     {
         keyItems.Add(itemName);
