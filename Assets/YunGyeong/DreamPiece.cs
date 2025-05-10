@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class DreamPiece : MonoBehaviour, IInteractable
 {
+    public int cutsceneIndex = 0; // ì´ ë“œë¦¼í”¼ìŠ¤ì— ì—°ê²°ë  ì»·ì”¬ ì¸ë±ìŠ¤
+
     public void Interact()
     {
+        Debug.Log("DreamPiece: Interact() í˜¸ì¶œë¨!");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -14,18 +17,18 @@ public class DreamPiece : MonoBehaviour, IInteractable
             }
         }
 
-        // ÃÖ½Å ¹æ½ÄÀ¸·Î ÄÆ¾À ¸Å´ÏÀú Ã£±â (°æ°í Á¦°ÅµÊ!)
-        CutsceneManager1 manager = Object.FindFirstObjectByType<CutsceneManager1>();
+        // CutsceneManagerë¡œ ì»·ì”¬ ì‹¤í–‰
+        CutsceneManager manager = Object.FindFirstObjectByType<CutsceneManager>();
         if (manager != null)
         {
-            Debug.Log("ÄÆ¾À ½ÇÇà! index: ");
-            manager.ShowCutscene();
+            Debug.Log("ì»·ì”¬ ì‹¤í–‰! index: " + cutsceneIndex);
+            manager.ShowCutscene(cutsceneIndex);
         }
         else
         {
-            Debug.LogWarning("CutsceneManager1 ¸ø Ã£À½!");
+            Debug.LogWarning("CutsceneManager ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ!");
         }
 
-        Destroy(gameObject);
+        Destroy(gameObject); // ë“œë¦¼í”¼ìŠ¤ ì œê±°
     }
 }

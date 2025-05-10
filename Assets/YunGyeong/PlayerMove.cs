@@ -36,6 +36,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
+        
         status = GetComponent<PlayerStatus>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
