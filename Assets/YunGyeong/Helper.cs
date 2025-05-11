@@ -54,6 +54,7 @@ public class Helper : MonoBehaviour
 
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
         float playerSpeed = Mathf.Abs(playerRb.linearVelocity.x);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
 
         switch (currentState)
         {
