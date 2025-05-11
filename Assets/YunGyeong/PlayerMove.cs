@@ -164,10 +164,14 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        bool isCrouching = crouchAction.IsPressed();
         bool isWalking = moveAction.IsPressed();
+        bool isSprinting = sprintAction.IsPressed() && isWalking && !isCrouching;
+
         animator.SetBool("Walk", isWalking);
         animator.SetBool("IsSprinting", sprintAction.IsPressed() && moveAction.IsPressed());
-
+        animator.SetBool("Walk", isWalking && !isCrouching && !isSprinting);
+        animator.SetBool("IsCrouching", isCrouching);
 
         Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
 
