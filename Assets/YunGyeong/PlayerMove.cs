@@ -12,7 +12,6 @@ public class PlayerMove : MonoBehaviour
     public float sprintMultiplier = 1.5f;
     public float jumpPower = 6f;
     private float originalScaleY;
-    public float crouchScaleY = 2f;
     private float originalSpeed;
     public InventoryManager inventoryManager;
 
@@ -177,12 +176,10 @@ public class PlayerMove : MonoBehaviour
 
         if (crouchAction.IsPressed())
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchScaleY, transform.localScale.z);
             speed = originalSpeed * crouchSpeedMultiplier;
         }
         else
         {
-            transform.localScale = new Vector3(transform.localScale.x, originalScaleY, transform.localScale.z);
             speed = originalSpeed;
         }
 
