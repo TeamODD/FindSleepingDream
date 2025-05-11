@@ -2,25 +2,30 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    [Header("ÇÊ¼ö ¼³Á¤")]
     public Transform player;
     public Vector3[] cameraPositions;
     public float[] triggerXPositions;
-    public float smoothSpeed = 3f; // ºÎµå·´°Ô ÀÌµ¿ÇÒ ¼Óµµ
+    public float followMargin = 4f;
+    public float smoothSpeed = 5f;
 
     private int currentZone = -1;
-    private Vector3 targetPosition;
+    private Vector3 hardTarget;
+
+    // âœ… ë‹¤ë¥¸ ìŠ¤í¬ë¦½íŠ¸ì—ì„œ ì ‘ê·¼ ê°€ëŠ¥í•˜ë„ë¡
+    public static int CurrentZone { get; private set; }
 
     void Start()
     {
-        targetPosition = transform.position;
+        hardTarget = transform.position;
+        CurrentZone = 0;
     }
 
     void Update()
     {
         int zone = -1;
+        Debug.Log("í˜„ì¬ ì¡´: " + CameraManager.CurrentZone); 
 
-        // ¿À¸¥ÂÊÀ¸·Î °¥ ¶§´Â ÇØ´ç zone °áÁ¤
+        // í˜„ì¬ zone ê²°ì •
         for (int i = triggerXPositions.Length - 1; i >= 0; i--)
         {
             if (player.position.x > triggerXPositions[i])
@@ -30,21 +35,32 @@ public class CameraManager : MonoBehaviour
             }
         }
 
-        // ¸¸¾à ¾Æ¹« Á¶°Çµµ ¾È ¸¸Á·ÇÏ¸é zone = -1 ¡æ zone 0À¸·Î °£ÁÖ
         if (zone == -1) zone = 0;
 
+        // zone ë°”ë€Œë©´ í•˜ë“œ ì´ë™ + í˜„ì¬ zone ì—…ë°ì´íŠ¸
         if (zone != currentZone)
         {
             currentZone = zone;
-            targetPosition = new Vector3(
+            CurrentZone = zone;
+
+            hardTarget = new Vector3(
                 cameraPositions[zone].x,
                 cameraPositions[zone].y,
                 transform.position.z
             );
+
+            transform.position = hardTarget; // ì¦‰ì‹œ ì´ë™
+            return; // í•œ í”„ë ˆì„ ì‰¬ê³  ë‹¤ìŒ í”„ë ˆì„ë¶€í„° ë”°ë¼ê°€ê¸°
         }
 
-        transform.position = targetPosition;
+        // í˜„ì¬ zone ë‚´ë¶€ì—ì„œëŠ” followMargin ì•ˆì—ì„œ ë¶€ë“œëŸ½ê²Œ ë”°ë¼ê°
+        Vector3 target = hardTarget;
+        float leftBound = hardTarget.x - followMargin;
+        float rightBound = hardTarget.x + followMargin;
 
+        float clampedX = Mathf.Clamp(player.position.x, leftBound, rightBound);
+        target.x = clampedX;
+
+        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * smoothSpeed);
     }
-
 }
