@@ -11,7 +11,23 @@ public class CameraManager : MonoBehaviour
     private int currentZone = -1;
     private Vector3 hardTarget;
 
-    // ✅ 다른 스크립트에서 접근 가능하도록
+    // 상태 분기용 enum
+    private enum CameraState
+    {
+        FollowPlayer,
+        FixedToBoss
+    }
+
+    private CameraState state = CameraState.FollowPlayer;
+
+    [Header("보스 연출 구간")]
+    public bool boss1Triggered = false;
+    public float boss1TriggerX = 110f;
+    public float boss1EndOffset = 20f;
+    public GameObject boss1Object; // 보스 오브젝트
+    public Transform fixedTargetObject; // 고정 카메라가 바라볼 대상
+
+    // 외부 조회용
     public static int CurrentZone { get; private set; }
 
     void Start()
@@ -22,10 +38,21 @@ public class CameraManager : MonoBehaviour
 
     void Update()
     {
-        int zone = -1;
-        Debug.Log("현재 존: " + CameraManager.CurrentZone); 
+        switch (state)
+        {
+            case CameraState.FollowPlayer:
+                HandleFollowPlayer();
+                break;
 
-        // 현재 zone 결정
+            case CameraState.FixedToBoss:
+                HandleFixedToBoss();
+                break;
+        }
+    }
+
+    void HandleFollowPlayer()
+    {
+        int zone = -1;
         for (int i = triggerXPositions.Length - 1; i >= 0; i--)
         {
             if (player.position.x > triggerXPositions[i])
@@ -37,7 +64,6 @@ public class CameraManager : MonoBehaviour
 
         if (zone == -1) zone = 0;
 
-        // zone 바뀌면 하드 이동 + 현재 zone 업데이트
         if (zone != currentZone)
         {
             currentZone = zone;
@@ -49,18 +75,61 @@ public class CameraManager : MonoBehaviour
                 transform.position.z
             );
 
-            transform.position = hardTarget; // 즉시 이동
-            return; // 한 프레임 쉬고 다음 프레임부터 따라가기
+            transform.position = hardTarget;
+            return;
         }
 
-        // 현재 zone 내부에서는 followMargin 안에서 부드럽게 따라감
         Vector3 target = hardTarget;
         float leftBound = hardTarget.x - followMargin;
         float rightBound = hardTarget.x + followMargin;
-
         float clampedX = Mathf.Clamp(player.position.x, leftBound, rightBound);
         target.x = clampedX;
 
         transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * smoothSpeed);
+
+        // ✅ 보스 트리거
+        if (!boss1Triggered && player.position.x > boss1TriggerX)
+        {
+            boss1Triggered = true;
+
+            if (boss1Object != null)
+                boss1Object.SetActive(true);
+
+            if (fixedTargetObject != null)
+            {
+                transform.position = new Vector3(
+                    fixedTargetObject.position.x,
+                    fixedTargetObject.position.y,
+                    transform.position.z
+                );
+            }
+
+            state = CameraState.FixedToBoss;
+        }
+    }
+
+    void HandleFixedToBoss()
+    {
+        // ✅ 카메라 고정
+        if (fixedTargetObject != null)
+        {
+            Vector3 fixedPos = fixedTargetObject.position;
+            transform.position = new Vector3(fixedPos.x, fixedPos.y, transform.position.z);
+        }
+
+        // ✅ 연출 종료 조건
+        if (player.position.x > boss1TriggerX + boss1EndOffset)
+        {
+            if (boss1Object != null)
+                boss1Object.SetActive(false);
+
+            state = CameraState.FollowPlayer;
+
+            hardTarget = new Vector3(
+                transform.position.x,
+                transform.position.y,
+                transform.position.z
+            );
+        }
     }
 }
