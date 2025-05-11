@@ -9,6 +9,7 @@ TagManager:
   - item
   - AttackItem
   - Monster
+  - Table
   layers:
   - Default
   - TransparentFX
