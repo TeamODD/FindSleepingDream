@@ -16,6 +16,7 @@ public class Helper : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private SpriteRenderer spriteRenderer; // ✅ 추가
     private Transform playerTransform;
     private Rigidbody2D playerRb;
 
@@ -26,6 +27,7 @@ public class Helper : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>(); // ✅ 추가
 
         if (rb == null)
         {
@@ -84,25 +86,17 @@ public class Helper : MonoBehaviour
                 }
                 break;
         }
-
-        // ✅ 애니메이션 상태 처리 (걷고 있는지 여부)
-        if (animator != null)
-        {
-            bool isMoving = rb.linearVelocity.magnitude > 0.01f;
-            animator.SetBool("IsWalking", isMoving);
-        }
-
-        // ✅ 좌우 반전 처리
-        if (rb.linearVelocity.x != 0)
-        {
-            float scaleX = Mathf.Sign(rb.linearVelocity.x) * Mathf.Abs(transform.localScale.x);
-            transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
-        }
     }
 
     private void MoveInDirection(Vector2 dir)
     {
         rb.linearVelocity = dir.normalized * moveSpeed;
-        // 걷기 애니메이션은 FixedUpdate()에서 처리됨
+
+        if (animator != null)
+            animator.SetBool("IsWalking", true);
+
+        // ✅ Sprite 방향에 따라 반전 처리
+        if (spriteRenderer != null && dir.x != 0)
+            spriteRenderer.flipX = dir.x > 0;
     }
 }
