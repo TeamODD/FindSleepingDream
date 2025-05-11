@@ -3,12 +3,15 @@ using UnityEngine;
 public class PlayerTableStun : MonoBehaviour
 {
     private PlayerMove playerMove;
+    private Animator animator;
     private bool isStunned = false;
     private float stunTimer = 0f;
 
     private void Start()
     {
         playerMove = GetComponent<PlayerMove>();
+        animator = GetComponent<Animator>();
+
         if (playerMove == null)
         {
             Debug.LogError("[PlayerTableStun] PlayerMove");
@@ -62,7 +65,6 @@ public class PlayerTableStun : MonoBehaviour
 
     public bool IsCrouching()
     {
-        // Y ������ ������� crouch ���� ����
-        return Mathf.Abs(transform.localScale.y - playerMove.crouchScaleY) < 0.01f;
+        return animator != null && animator.GetBool("IsCrouching");
     }
 }
