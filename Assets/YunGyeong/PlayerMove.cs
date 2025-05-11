@@ -268,4 +268,9 @@ public class PlayerMove : MonoBehaviour
         Debug.Log("[Player] 플레이어가 기물에 맞아 죽었습니다.");
     }
     // =============================
+
+   
 }
+
+
+
