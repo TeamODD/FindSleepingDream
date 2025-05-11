@@ -129,11 +129,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1103591359400500296, guid: c5f452c43ab8b1b4587a6762e01a2cd0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.1228368
+      value: 2.1302667
       objectReference: {fileID: 0}
     - target: {fileID: 1103591359400500296, guid: c5f452c43ab8b1b4587a6762e01a2cd0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6.44
+      value: 9.908366
+      objectReference: {fileID: 0}
+    - target: {fileID: 1103591359400500296, guid: c5f452c43ab8b1b4587a6762e01a2cd0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0035
       objectReference: {fileID: 0}
     - target: {fileID: 1103591359400500296, guid: c5f452c43ab8b1b4587a6762e01a2cd0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -141,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1103591359400500296, guid: c5f452c43ab8b1b4587a6762e01a2cd0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7
+      value: 0.0343
       objectReference: {fileID: 0}
     - target: {fileID: 1103591359400500296, guid: c5f452c43ab8b1b4587a6762e01a2cd0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -392,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995e77dc79d5d764fb78db07dcad47f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxFactor: 0.5
+  parallaxFactor: 0.8
   zoneAnchor: {fileID: 662954505}
   visibleZone: 2
 --- !u!212 &155572956
@@ -1290,7 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995e77dc79d5d764fb78db07dcad47f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxFactor: 0.5
+  parallaxFactor: 0.8
   zoneAnchor: {fileID: 2012202298}
   visibleZone: 4
 --- !u!212 &876729088
@@ -1393,7 +1397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995e77dc79d5d764fb78db07dcad47f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxFactor: 0.5
+  parallaxFactor: 0.8
   zoneAnchor: {fileID: 1242213560}
   visibleZone: 3
 --- !u!212 &894520219
@@ -2927,7 +2931,7 @@ MonoBehaviour:
   - 90
   - 110
   - 130
-  followMargin: 2
+  followMargin: 1
   smoothSpeed: 3
 --- !u!1001 &1562737918
 PrefabInstance:
@@ -3259,7 +3263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995e77dc79d5d764fb78db07dcad47f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxFactor: 0.5
+  parallaxFactor: 0.8
   zoneAnchor: {fileID: 1800660354}
   visibleZone: 1
 --- !u!1 &1800660352
