@@ -96,7 +96,7 @@ public class PlayerMove : MonoBehaviour
     void OnInteractPerformed(InputAction.CallbackContext context)
     {
         Debug.Log("C 키 눌림: 상호작용 시도 중");
-        float interactRadius = 1.5f;
+        float interactRadius = 1.5f; // 아이템 인식 범위
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactRadius);
 
