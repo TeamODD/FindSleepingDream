@@ -166,6 +166,9 @@ public class PlayerMove : MonoBehaviour
     {
         bool isWalking = moveAction.IsPressed();
         animator.SetBool("Walk", isWalking);
+        animator.SetBool("IsSprinting", sprintAction.IsPressed() && moveAction.IsPressed());
+
+
         Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
 
         if (crouchAction.IsPressed())
