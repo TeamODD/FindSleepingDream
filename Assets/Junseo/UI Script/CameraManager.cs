@@ -16,6 +16,9 @@ public class CameraManager : MonoBehaviour
     private Vector3 enterTarget;
     private Vector3 returnTarget;
 
+    private CameraState nextStateAfterEnter; // 보스 진입 시 어떤 상태로 바뀔지 저장
+
+
 
     private enum CameraState
     {
@@ -62,11 +65,12 @@ public class CameraManager : MonoBehaviour
         transform.position = enterTarget;
         isEnteringBoss = false;
 
-        // ✅ 상태 전환은 여기서
-        state = CameraState.FixedToBoss;
+        // ✅ 실제 전환할 상태로 바꾸기
+        state = nextStateAfterEnter;
     }
     return;
 }
+
 
         if (isReturningFromBoss)
         {
@@ -134,33 +138,35 @@ public class CameraManager : MonoBehaviour
 
         // 보스 1 트리거
         if (!boss1Triggered && player.position.x > boss1TriggerX)
-        {
-            boss1Triggered = true;
+{
+    boss1Triggered = true;
 
-            if (boss1Object != null)
-                boss1Object.SetActive(true);
+    if (boss1Object != null)
+        boss1Object.SetActive(true);
 
-                 isEnteringBoss = true;
+    isEnteringBoss = true;
     float midX = (player.position.x + fixedTargetObject.position.x) / 2f;
     enterTarget = new Vector3(midX + midPointOffset, 0f, -5f);
 
-            state = CameraState.FixedToBoss;
-        }
+    nextStateAfterEnter = CameraState.FixedToBoss; // ✅ 상태 저장
+}
+
 
         // 보스 2 트리거
         if (!boss2Triggered && player.position.x > boss2TriggerX)
-        {
-            boss2Triggered = true;
+{
+    boss2Triggered = true;
 
-            if (boss2Object != null)
-                boss2Object.SetActive(true);
+    if (boss2Object != null)
+        boss2Object.SetActive(true);
 
-            isEnteringBoss = true;
-            float midX = (player.position.x + fixedTargetObject2.position.x) / 2f;
-            enterTarget = new Vector3(midX + midPointOffset, 0f, -5f);
+    isEnteringBoss = true;
+    float midX = (player.position.x + fixedTargetObject2.position.x) / 2f;
+    enterTarget = new Vector3(midX + midPointOffset, 0f, -5f);
 
-            state = CameraState.FixedToBoss2;
-        }
+    nextStateAfterEnter = CameraState.FixedToBoss2; // ✅ 상태 저장
+}
+
     }
 
     void HandleFixedToBoss()
