@@ -121,7 +121,7 @@ public class SpawnEnemy : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject enemyprefab;
-    public float spawnCoolDown = 3f;
+    public float spawnCoolDown = 3f; // 스폰 쿨타임
     public float deadcooldown = 10f;
 
     [Header("Chase & Throw Settings")]
@@ -147,7 +147,7 @@ public class SpawnEnemy : MonoBehaviour
 
         if (isChasing)
         {
-            ChasePlayer();
+            //ChasePlayer();
             CheckAndThrowObstacle();
         }
         else
@@ -175,11 +175,11 @@ public class SpawnEnemy : MonoBehaviour
         isChasing = distanceToPlayer <= playerDetectRange;
     }
 
-    private void ChasePlayer()
-    {
-        Vector2 dir = (player.position - transform.position).normalized;
-        rb.linearVelocity = dir * MoveEnemy.CurrentSpeed;
-    }
+    //private void ChasePlayer()
+    //{
+    //    Vector2 dir = (player.position - transform.position).normalized;
+    //    rb.linearVelocity = dir * MoveEnemy.CurrentSpeed;
+    //}
 
     private void CheckAndThrowObstacle()
     {
@@ -214,7 +214,7 @@ public class SpawnEnemy : MonoBehaviour
         Vector2[] targets = { playerTop, playerBot };
 
         Vector2 targetPos = targets[Random.Range(0, targets.Length)];
-        Vector2 throwDir = (targetPos - (Vector2)obstacle.transform.position).normalized;
+        Vector2 throwDir = (targetPos - (Vector2)transform.position).normalized;
 
         rbObstacle.AddForce(throwDir * throwForce, ForceMode2D.Impulse);
 

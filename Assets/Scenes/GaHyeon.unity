@@ -593,7 +593,7 @@ MonoBehaviour:
   deadcooldown: 20
   player: {fileID: 889266932}
   playerDetectRange: 20
-  throwForce: 3
+  throwForce: 1.5
   throwCheckRadius: 1
 --- !u!61 &688343410
 BoxCollider2D:
@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 10
+  jumpForce: 15
   groundCheck: {fileID: 1671539857}
   groundLayer:
     serializedVersion: 2
@@ -1216,7 +1216,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: c7e83e9951edf6d4bb11371f9fb006bf, type: 3}
+  m_Sprite: {fileID: 8756136242899967372, guid: 127707703f75db94ab0ecd4416fd6cfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1236,7 +1236,7 @@ Transform:
   m_GameObject: {fileID: 1457032690}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.88, y: 0.69, z: 0}
+  m_LocalPosition: {x: -6.21, y: -0.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1809,7 +1809,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -5698582614243262572, guid: 38944189a2bb00149811a32fa8981ccb, type: 3}
+  m_Sprite: {fileID: -35980741259072336, guid: e624d01b4ea2a37428c8b57dd3751ebc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1829,7 +1829,7 @@ Transform:
   m_GameObject: {fileID: 1695728037}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.84, y: 1.84, z: 0}
+  m_LocalPosition: {x: -4.07, y: 0.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1887,7 +1887,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 12.3, y: 3.9}
+    oldSize: {x: 4.457143, y: 6.142857}
     newSize: {x: 2.46, y: 0.78}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1933,9 +1933,9 @@ GameObject:
   - component: {fileID: 1756886126}
   - component: {fileID: 1756886125}
   - component: {fileID: 1756886124}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Platform1 (1)
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2212,7 +2212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1980013002
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2277,7 +2277,7 @@ Transform:
   m_GameObject: {fileID: 1980013001}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.66, y: -3.71, z: 0}
+  m_LocalPosition: {x: -4.59, y: -3.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
