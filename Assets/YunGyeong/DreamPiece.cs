@@ -22,7 +22,7 @@ public class DreamPiece : MonoBehaviour, IInteractable
         if (manager != null)
         {
             Debug.Log("컷씬 실행! index: " + cutsceneIndex);
-            manager.ShowCutscene(cutsceneIndex);
+            manager.ShowCutsceneSequence(cutsceneIndex);
         }
         else
         {
