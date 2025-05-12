@@ -2,24 +2,26 @@ using UnityEngine;
 
 public class ItemHint : MonoBehaviour
 {
-    public GameObject hintImage;  // ¶ç¿ï ÀÌ¹ÌÁö ¿ÀºêÁ§Æ®
+    public GameObject hintImage;  // í‘œì‹œí•  íŒíŠ¸ ì´ë¯¸ì§€
     public float verticalOffset = 1.2f;
     public bool faceCamera = true;
 
+    [Header("ìë™ ìœ„ì¹˜ ì¡°ì • ì„¤ì •")]
+    public bool useAutoPosition = true; // âœ… ìë™ ìœ„ì¹˜ ì¡°ì • ì—¬ë¶€
+    public Vector3 customOffset = new Vector3(1f, 1.2f, 1f); // âœ… ìˆ˜ë™ ì¡°ì •ìš© ì˜¤í”„ì…‹
+
     private void Start()
     {
-        // ÀÚµ¿ ¿¬°á ½Ãµµ (hintImage ¹Ì¿¬°á ½Ã)
         if (hintImage == null)
         {
             hintImage = transform.Find("HintImage")?.gameObject;
-            Debug.Log("[HintTrigger] ÀÚµ¿À¸·Î HintImage ¿¬°á ½Ãµµ");
+            Debug.Log("[HintTrigger] ìë™ìœ¼ë¡œ HintImage ì—°ê²° ì‹œë„");
         }
 
-        // ¿¬°á ½ÇÆĞ °æ°í
         if (hintImage == null)
-            Debug.LogWarning("[HintTrigger] hintImage ¿¬°á ½ÇÆĞ!");
+            Debug.LogWarning("[HintTrigger] hintImage ì—°ê²° ì‹¤íŒ¨!");
         else
-            hintImage.SetActive(false);  // ½ÃÀÛ ½Ã ¼û±è
+            hintImage.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -27,7 +29,7 @@ public class ItemHint : MonoBehaviour
         if (other.CompareTag("Player") && hintImage != null)
         {
             hintImage.SetActive(true);
-            Debug.Log("[Hint] ÈùÆ® Ç¥½ÃµÊ");
+            Debug.Log("[Hint] íŒíŠ¸ í‘œì‹œë¨");
         }
     }
 
@@ -36,7 +38,7 @@ public class ItemHint : MonoBehaviour
         if (other.CompareTag("Player") && hintImage != null)
         {
             hintImage.SetActive(false);
-            Debug.Log("[Hint] ÈùÆ® ¼û±è");
+            Debug.Log("[Hint] íŒíŠ¸ ìˆ¨ê¹€");
         }
     }
 
@@ -44,11 +46,13 @@ public class ItemHint : MonoBehaviour
     {
         if (hintImage != null)
         {
-            // ¾ÆÀÌÅÛ À§Ä¡ ¹Ù·Î À§·Î ÀÌ¹ÌÁö À§Ä¡ °íÁ¤
-            Vector3 offset = new Vector3(0, verticalOffset, 0);
-            hintImage.transform.position = transform.position + offset;
-
-            // È¸Àü °íÁ¤ (Ä«¸Ş¶ó Á¤¸é)
+            if (useAutoPosition)
+            {
+                // âœ… ìë™ ìœ„ì¹˜ ì¡°ì •: verticalOffset ë˜ëŠ” customOffset ì‚¬ìš©
+                Vector3 offset = customOffset; // í•„ìš”ì‹œ verticalOffsetë§Œ ì“°ëŠ” ê±¸ë¡œ ë°”ê¿”ë„ ë¨
+                hintImage.transform.position = transform.position + offset;
+            }
+            // âœ… faceCamera ì„¤ì • ì‹œ íšŒì „ ê³ ì •
             if (faceCamera)
                 hintImage.transform.rotation = Quaternion.identity;
         }
