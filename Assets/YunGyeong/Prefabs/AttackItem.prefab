@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -175,7 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6354e2a2e541a4b4eac0d6dfacf2cfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  delayBeforeThrow: 0.5
-  throwForce: 15
-  arcHeight: 15
+  speed: 15
+  activeDuration: 5
+  targetNearestMonster: 1
+  manualTarget: {fileID: 0}
+  flyLeftIfNoTarget: 0

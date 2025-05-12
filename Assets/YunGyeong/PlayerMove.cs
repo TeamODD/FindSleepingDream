@@ -191,6 +191,15 @@ public class PlayerMove : MonoBehaviour
                 Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
             }
         }
+
+        
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+            foreach (var hit in hits)
+            {
+                Debug.Log("닿은 객체: " + hit.name);
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
