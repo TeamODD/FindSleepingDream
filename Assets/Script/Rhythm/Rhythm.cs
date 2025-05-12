@@ -50,16 +50,31 @@ public class Rhythm : MonoBehaviour
             {
                 Debug.Log("성공!");
             }
+            else if (!Input.anyKeyDown)
+        {
+            Debug.Log("입력없어서 실패!");
+                break;
+
+        }
+
+
+
             else
             {
                 Debug.Log("시간초과!");
+                inputEnabled = false;
             }
 
             yield return new WaitForSeconds(0.2f); // 다음 라운드 전 대기 시간
+            
+
         }
+
+        
 
         Debug.Log("게임 끝!");
     }
+
 
 
     private void ResetCircleSprites()
