@@ -342,7 +342,7 @@ rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
 
     public void Die()
     {
-        if (isDead) return;
+        if (!isDead)
         isDead = true;
 
         if (rb != null)
