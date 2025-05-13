@@ -14,6 +14,16 @@ public class PlayerMove : MonoBehaviour
     private float originalScaleY;
     private float originalSpeed;
     public InventoryManager inventoryManager;
+    private PlayerTableStun stunController;
+
+
+
+    // 쭈그렸을 때 박스콜라이더 축소로 책상 지나갈 수 있도록 선언
+    private BoxCollider2D boxCollider;
+    private Vector2 originalSize;
+    private Vector2 crouchSize;
+    private Vector2 originalOffset;
+    private Vector2 crouchOffset;
 
     public float crouchSpeedMultiplier = 0.7f;
 
@@ -35,7 +45,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        
+
         status = GetComponent<PlayerStatus>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -51,7 +61,24 @@ public class PlayerMove : MonoBehaviour
         originalSpeed = speed;
 
         jumpAction.performed += OnJumpPerformed;
+        if (status == null)
+        {
+            Debug.LogError("[PlayerMove] PlayerStatus 컴포넌트를 찾을 수 없습니다.");
+        }
 
+        //쭈그렸을 때 박스 콜라이더 축소
+        boxCollider = GetComponent<BoxCollider2D>();
+        if (boxCollider != null)
+        {
+            originalSize = boxCollider.size;
+            originalOffset = boxCollider.offset;
+
+            // 원하는 쭈그린 상태의 사이즈와 오프셋으로 설정!
+            crouchSize = new Vector2(originalSize.x, originalSize.y * 0.5f); // 높이 절반으로
+            crouchOffset = new Vector2(originalOffset.x, originalOffset.y - (originalSize.y * 0.25f)); // 아래로 약간 내림
+        }
+        //스턴 되었을 때 모든 움직임 차단
+        stunController = GetComponent<PlayerTableStun>();
     }
 
     private void OnDestroy()
@@ -147,6 +174,31 @@ private void FixedUpdate()
         {
             status.StopDepletion();
         }
+
+        rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
+
+        if (moveValue > 0)
+        {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else if (moveValue < 0)
+        {
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+
+        if (jumpAction.IsPressed() && !isJumping)
+        {
+            isJumping = true;
+            rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+        }
+
+        //스턴시 행동 멈춤
+        if (stunController != null && stunController.IsStunned())
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);  // 수평 이동 정지
+            return;
+        }
+
     }
 
 rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
@@ -185,15 +237,62 @@ rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
         {
             Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
         }
+        bool isForceCrouching = false;
 
-        
+        var tableStun = GetComponent<PlayerTableStun>();
+        if (tableStun != null && tableStun.IsForceCrouching())  // ✅ 요거 추가로 만들어야 함!
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1.5f);
-            foreach (var hit in hits)
+            isForceCrouching = true;
+        }
+        // ▶ 콜라이더 강제 조절
+        if (isForceCrouching)
+        {
+            boxCollider.size = new Vector2(0.4167204f, 1.288672f);
+            boxCollider.offset = new Vector2(-0.05098605f, 0.6191691f);
+            animator.SetBool("IsCrouching", true); // 애니메이션 쭈그리기 유지
+
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+
+        }
+        else if (isCrouching)
+        {
+            boxCollider.size = crouchSize;
+            boxCollider.offset = crouchOffset;
+            animator.SetBool("IsCrouching", true);
+
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+
+        }
+        else
+        {
+            boxCollider.size = originalSize;
+            boxCollider.offset = originalOffset;
+            animator.SetBool("IsCrouching", false);
+            if (!stunController.IsForceCrouching())
             {
-                Debug.Log("닿은 객체: " + hit.name);
+                animator.SetBool("IsCrouching", false);
             }
         }
+
+        if (crouchAction.IsPressed())
+        {
+            speed = originalSpeed * crouchSpeedMultiplier;
+            if (boxCollider != null)
+            {
+                boxCollider.size = crouchSize;
+                boxCollider.offset = crouchOffset;
+            }
+        }
+        else
+        {
+            speed = originalSpeed;
+            if (boxCollider != null)
+            {
+                boxCollider.size = originalSize;
+                boxCollider.offset = originalOffset;
+            }
+        }
+
     }
 }
 
@@ -206,7 +305,7 @@ rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
         }
     }
 
-    
+
     public void CollectItem(string itemName)
     {
         keyItems.Add(itemName);
@@ -271,8 +370,5 @@ rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
     }
     // =============================
 
-   
+
 }
-
-
-
