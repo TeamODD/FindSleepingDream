@@ -63,8 +63,12 @@ public class PlayerMove : MonoBehaviour
     void OnJumpPerformed(InputAction.CallbackContext context)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+        if (hit.collider == null)
+    Debug.LogWarning(">> 바닥에 안 닿음!");
+
         if (hit.collider != null && !isJumping)
         {
+            Debug.Log(">> 점프 입력됨");
             isJumping = true;
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
         }
@@ -118,44 +122,41 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-   private void FixedUpdate()
+private void FixedUpdate()
 {
     float moveValue = moveAction.ReadValue<Vector2>().x;
-    bool isMoving = moveValue != 0;
+    bool isMoving = Mathf.Abs(moveValue) > 0.01f;
     bool isCrouching = crouchAction.IsPressed();
     bool wantsToSprint = sprintAction.IsPressed();
     bool canSprint = status != null && status.CanSprint;
 
+    float currentSpeed = speed;
+
+    // ✅ 실제 달리기 조건
     bool shouldSprint = isMoving && wantsToSprint && !isCrouching && canSprint;
 
-    float currentSpeed = shouldSprint ? speed * sprintMultiplier : speed;
-
-    // ✅ 스태미너 소모/회복 제어
     if (shouldSprint)
     {
-        status.StartDepletion();  // ✅ 조건 만족 중엔 계속 유지
+        currentSpeed = speed * sprintMultiplier;
+        status.StartDepletion();
     }
     else
-{
-    // ✅ Shift랑 방향키 둘 다 뗐을 때만 회복 시작
-    if (!wantsToSprint && !isMoving)
     {
-        status.StopDepletion();
+        // ✅ 방향키를 떼면, 즉 "달리기 입력 중단"이면 무조건 StopDepletion 호출
+        if (!isMoving || !wantsToSprint)
+        {
+            status.StopDepletion();
+        }
     }
-}
 
+rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
 
-    // 이동 처리
-    rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
-
-    // 방향 반영
     if (moveValue > 0)
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     else if (moveValue < 0)
         transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+}
 
-        
-    }
 
     private void Update()
 {
