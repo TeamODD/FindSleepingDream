@@ -4,6 +4,6 @@ public class TriggerDebug : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"[TriggerDebug] ¢º {other.name} ÀÌ(°¡) Ãæµ¹ ÁøÀÔ");
+        Debug.Log($"[TriggerDebug] â–¶ {other.name} ì´(ê°€) ì¶©ëŒ ì§„ì…");
     }
 }

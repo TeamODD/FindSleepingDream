@@ -19,15 +19,15 @@ public class InventoryUI : MonoBehaviour
     }
 
 
-    // ¿ÜºÎ¿¡¼­ È£ÃâÇÏ¿© ÇöÀç »óÅÂ¿¡ ¸Â°Ô UI °»½Å
+    // ì™¸ë¶€ì—ì„œ í˜¸ì¶œí•˜ì—¬ í˜„ìž¬ ìƒíƒœì— ë§žê²Œ UI ê°±ì‹ 
     public void UpdateUI(InventoryManagerInterface inventory)
     {
-        Debug.Log("[InventoryUI] UI °»½Å È£ÃâµÊ");
-        // ¿­¼è¿Í ´ã¿ä´Â º¸À¯ ¿©ºÎ¸¸ ¹Ý¿µ
+        Debug.Log("[InventoryUI] UI ê°±ì‹  í˜¸ì¶œë¨");
+        // ì—´ì‡ ì™€ ë‹´ìš”ëŠ” ë³´ìœ  ì—¬ë¶€ë§Œ ë°˜ì˜
         slotKey.enabled = inventory.HasItem("Key");
         slotBlanket.enabled = inventory.HasItem("Blanket");
 
-        // º°Á¶°¢ ¼ö¸¸Å­ Ç¥½Ã
+        // ë³„ì¡°ê° ìˆ˜ë§Œí¼ í‘œì‹œ
         int starCount = inventory.GetItemCount("Star");
         slotStar1.enabled = starCount >= 1;
         slotStar2.enabled = starCount >= 2;
