@@ -74,7 +74,8 @@ public class PlayerMove : MonoBehaviour
             originalOffset = boxCollider.offset;
 
             // 원하는 쭈그린 상태의 사이즈와 오프셋으로 설정!
-            crouchSize = new Vector2(originalSize.x, originalSize.y * 0.5f); // 높이 절반으로
+            crouchSize = new Vector2(originalSize.x, originalSize.y * 0.5f);
+            // 높이 절반으로
             crouchOffset = new Vector2(originalOffset.x, originalOffset.y - (originalSize.y * 0.25f)); // 아래로 약간 내림
         }
         //스턴 되었을 때 모든 움직임 차단
@@ -229,14 +230,17 @@ rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
 
     speed = isCrouching ? originalSpeed * crouchSpeedMultiplier : originalSpeed;
 
-    // 조력자 거리 경고
-    if (helperNPC != null)
-    {
-        float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
-        if (distanceToHelper > maxDistanceToHelper)
+        // 조력자 거리 경고
+        if (helperNPC != null)
         {
-            Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
+            Debug.Log("NPC");
+            float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
+            if (distanceToHelper > maxDistanceToHelper)
+            {
+                Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
+            }
         }
+        
         bool isForceCrouching = false;
 
         var tableStun = GetComponent<PlayerTableStun>();
@@ -244,56 +248,36 @@ rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
         {
             isForceCrouching = true;
         }
-        // ▶ 콜라이더 강제 조절
-        if (isForceCrouching)
-        {
-            boxCollider.size = new Vector2(0.4167204f, 1.288672f);
-            boxCollider.offset = new Vector2(-0.05098605f, 0.6191691f);
-            animator.SetBool("IsCrouching", true); // 애니메이션 쭈그리기 유지
-
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
-
-        }
-        else if (isCrouching)
-        {
-            boxCollider.size = crouchSize;
-            boxCollider.offset = crouchOffset;
-            animator.SetBool("IsCrouching", true);
-
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
-
-        }
-        else
-        {
-            boxCollider.size = originalSize;
-            boxCollider.offset = originalOffset;
-            animator.SetBool("IsCrouching", false);
-            if (!stunController.IsForceCrouching())
+            // ▶ 콜라이더 강제 조절
+            if (isForceCrouching)
             {
-                animator.SetBool("IsCrouching", false);
+                boxCollider.size = new Vector2(0.4167204f, 1.288672f);
+                boxCollider.offset = new Vector2(-0.05098605f, 0.6191691f);
+                animator.SetBool("IsCrouching", true); // 애니메이션 쭈그리기 유지
+
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+
             }
-        }
-
-        if (crouchAction.IsPressed())
-        {
-            speed = originalSpeed * crouchSpeedMultiplier;
-            if (boxCollider != null)
+            else if (isCrouching)
             {
+                speed = originalSpeed * crouchSpeedMultiplier;
+
                 boxCollider.size = crouchSize;
                 boxCollider.offset = crouchOffset;
+                animator.SetBool("IsCrouching", true);
+                Debug.Log("쭈그린 상태에서의 콜라이더");
+
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+
             }
-        }
-        else
-        {
-            speed = originalSpeed;
-            if (boxCollider != null)
+            else
             {
                 boxCollider.size = originalSize;
                 boxCollider.offset = originalOffset;
-            }
-        }
+                animator.SetBool("IsCrouching", false);
 
-    }
+            }
+    
 }
 
 

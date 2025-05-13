@@ -927,8 +927,8 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 1
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
@@ -1346,19 +1346,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 490508155975219528, guid: 1f627eaf5be23e943959b8d2ce2ed1b7, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.6382148
+      value: 1.6976819
       objectReference: {fileID: 0}
     - target: {fileID: 490508155975219528, guid: 1f627eaf5be23e943959b8d2ce2ed1b7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8041713
+      value: 1.0766245
       objectReference: {fileID: 0}
     - target: {fileID: 490508155975219528, guid: 1f627eaf5be23e943959b8d2ce2ed1b7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.2837
+      value: 0.1883
       objectReference: {fileID: 0}
     - target: {fileID: 490508155975219528, guid: 1f627eaf5be23e943959b8d2ce2ed1b7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4253
+      value: -2.9213
       objectReference: {fileID: 0}
     - target: {fileID: 490508155975219528, guid: 1f627eaf5be23e943959b8d2ce2ed1b7, type: 3}
       propertyPath: m_LocalPosition.z
