@@ -51,10 +51,7 @@ public class PlayerMove : MonoBehaviour
         originalSpeed = speed;
 
         jumpAction.performed += OnJumpPerformed;
-        if(status == null)
-        {
-            Debug.LogError("[PlayerMove] PlayerStatus 컴포넌트를 찾을 수 없습니다.");
-        }
+
     }
 
     private void OnDestroy()
@@ -121,77 +118,75 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+   private void FixedUpdate()
+{
+    float moveValue = moveAction.ReadValue<Vector2>().x;
+    bool isMoving = moveValue != 0;
+    bool isCrouching = crouchAction.IsPressed();
+    bool wantsToSprint = sprintAction.IsPressed();
+    bool canSprint = status != null && status.CanSprint;
+
+    bool shouldSprint = isMoving && wantsToSprint && !isCrouching && canSprint;
+
+    float currentSpeed = shouldSprint ? speed * sprintMultiplier : speed;
+
+    // ✅ 스태미너 소모/회복 제어
+    if (shouldSprint)
     {
-        var moveValue = moveAction.ReadValue<Vector2>().x;
-        float currentSpeed = speed;
+        status.StartDepletion();  // ✅ 조건 만족 중엔 계속 유지
+    }
+    else
+{
+    // ✅ Shift랑 방향키 둘 다 뗐을 때만 회복 시작
+    if (!wantsToSprint && !isMoving)
+    {
+        status.StopDepletion();
+    }
+}
 
-        if (sprintAction.IsPressed() && moveValue != 0 && status.GetEnergy()>0)
-        {
-            currentSpeed *= sprintMultiplier;
-            status.StartDepletion();
-            currentSprintTime += Time.fixedDeltaTime;
 
-            if (currentSprintTime >= maxSprintTime)
-            {
-                currentSprintTime = maxSprintTime;
-            }
-        }
-        else
-        {
-            currentSprintTime = Mathf.Max(0f, currentSprintTime - Time.fixedDeltaTime);
-            status.StopDepletion();
-        }
+    // 이동 처리
+    rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
 
-        rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
+    // 방향 반영
+    if (moveValue > 0)
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    else if (moveValue < 0)
+        transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 
-        if (moveValue > 0)
-        {
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        else if (moveValue < 0)
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-
-        if (jumpAction.IsPressed() && !isJumping)
-        {
-            isJumping = true;
-            rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-        }
+        
     }
 
     private void Update()
+{
+    bool isCrouching = crouchAction.IsPressed();
+    bool isWalking = moveAction.IsPressed();
+    bool wantsToSprint = sprintAction.IsPressed();
+    bool canSprint = status != null && status.CanSprint;
+
+    bool isSprinting = wantsToSprint && isWalking && !isCrouching && canSprint;
+
+    // 애니메이션 상태 설정
+    animator.SetBool("IsSprinting", isSprinting);
+    animator.SetBool("Walk", isWalking && !isCrouching && !isSprinting);
+    animator.SetBool("IsCrouching", isCrouching);
+
+    // 디버그 및 속도 조정
+    Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
+
+    speed = isCrouching ? originalSpeed * crouchSpeedMultiplier : originalSpeed;
+
+    // 조력자 거리 경고
+    if (helperNPC != null)
     {
-        bool isCrouching = crouchAction.IsPressed();
-        bool isWalking = moveAction.IsPressed();
-        bool isSprinting = sprintAction.IsPressed() && isWalking && !isCrouching;
-
-        animator.SetBool("Walk", isWalking);
-        animator.SetBool("IsSprinting", sprintAction.IsPressed() && moveAction.IsPressed());
-        animator.SetBool("Walk", isWalking && !isCrouching && !isSprinting);
-        animator.SetBool("IsCrouching", isCrouching);
-
-        Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
-
-        if (crouchAction.IsPressed())
+        float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
+        if (distanceToHelper > maxDistanceToHelper)
         {
-            speed = originalSpeed * crouchSpeedMultiplier;
-        }
-        else
-        {
-            speed = originalSpeed;
-        }
-
-        if (helperNPC != null)
-        {
-            float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
-            if (distanceToHelper > maxDistanceToHelper)
-            {
-                Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
-            }
+            Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
         }
     }
+}
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -72,16 +72,26 @@ public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
     }
 
     public void StartDepletion()
+{
+    if (energy > 0f)
     {
-        // ✅ 이미 달리는 중이어도 재호출 허용 (상태 유지)
-        if (!isRecovering && energy > 0f)
+        isDepleting = true;
+
+        // ✅ 회복 중이면 중단하고 지연 다시 시작
+        if (isRecovering)
         {
-            isDepleting = true;
             isRecovering = false;
-            isWaitingForRecovery = false;
-            isRecoveryQueued = false;
+            StartRecoveryDelay(); // 회복 → 지연 전환
+        }
+
+        // ✅ 회복 지연 중이면 타이머 리셋
+        if (isWaitingForRecovery)
+        {
+            recoveryDelayTimer = recoveryDelay;
         }
     }
+}
+
 
     public void StopDepletion()
     {

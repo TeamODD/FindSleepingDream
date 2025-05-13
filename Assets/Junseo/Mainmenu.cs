@@ -5,13 +5,13 @@ public class Mainmenu : MonoBehaviour
 {
     public void StartGame()
     {
-        Debug.Log("Start ��ư ����");
+        Debug.Log("Start");
         SceneManager.LoadScene("Junseo");
     }
 
     public void QuitGame()
     {
-        Debug.Log("Quit ��ư ����");
+        Debug.Log("Quit");
         Application.Quit();
 
 #if UNITY_EDITOR

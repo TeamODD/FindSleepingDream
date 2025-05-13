@@ -5,7 +5,7 @@ public class InventoryManager : MonoBehaviour, InventoryManagerInterface
 {
     private Dictionary<string, int> items = new Dictionary<string, int>();
 
-    [SerializeField] private InventoryUI inventoryUI; // UI ¿¬°á
+    [SerializeField] private InventoryUI inventoryUI; // UI ì—°ê²°
 
     public int GetItemCount(string itemName)
     {
@@ -24,7 +24,7 @@ public class InventoryManager : MonoBehaviour, InventoryManagerInterface
 
         items[itemName]++;
 
-        UpdateUI(); // Ãß°¡ ½Ã UI °»½Å
+        UpdateUI(); // ì¶”ê°€ ì‹œ UI ê°±ì‹ 
     }
 
 
@@ -33,7 +33,7 @@ public class InventoryManager : MonoBehaviour, InventoryManagerInterface
         if (HasItem(itemName))
         {
             items[itemName]--;
-            UpdateUI(); // »ç¿ë ½Ã UI °»½Å
+            UpdateUI(); // ì‚¬ìš© ì‹œ UI ê°±ì‹ 
         }
     }
 
