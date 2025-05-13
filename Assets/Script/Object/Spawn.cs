@@ -195,6 +195,17 @@ public class SpawnEnemy : MonoBehaviour
         }
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerMode>()?.Die();
+            Destroy(gameObject);
+
+        }
+    }
+
     private void ThrowObject(GameObject obstacle)
     {
         Rigidbody2D rbObstacle = obstacle.GetComponent<Rigidbody2D>();
