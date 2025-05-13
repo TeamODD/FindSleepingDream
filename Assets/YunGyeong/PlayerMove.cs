@@ -90,8 +90,12 @@ public class PlayerMove : MonoBehaviour
     void OnJumpPerformed(InputAction.CallbackContext context)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+        if (hit.collider == null)
+    Debug.LogWarning(">> 바닥에 안 닿음!");
+
         if (hit.collider != null && !isJumping)
         {
+            Debug.Log(">> 점프 입력됨");
             isJumping = true;
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
         }
@@ -145,25 +149,36 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+private void FixedUpdate()
+{
+    float moveValue = moveAction.ReadValue<Vector2>().x;
+    bool isMoving = Mathf.Abs(moveValue) > 0.01f;
+    bool isCrouching = crouchAction.IsPressed();
+    bool wantsToSprint = sprintAction.IsPressed();
+    bool canSprint = status != null && status.CanSprint;
+
+    float currentSpeed = speed;
+
+    // ✅ 실제 달리기 조건
+    bool shouldSprint = isMoving && wantsToSprint && !isCrouching && canSprint;
+
+    if (shouldSprint)
     {
+<<<<<<< HEAD
         var moveValue = moveAction.ReadValue<Vector2>().x;
         float currentSpeed = speed;
 
         if (sprintAction.IsPressed() && moveValue != 0 && status.GetEnergy() > 0)
+=======
+        currentSpeed = speed * sprintMultiplier;
+        status.StartDepletion();
+    }
+    else
+    {
+        // ✅ 방향키를 떼면, 즉 "달리기 입력 중단"이면 무조건 StopDepletion 호출
+        if (!isMoving || !wantsToSprint)
+>>>>>>> 3efc4f58424ec1202c25322086b71ad0fab1f481
         {
-            currentSpeed *= sprintMultiplier;
-            status.StartDepletion();
-            currentSprintTime += Time.fixedDeltaTime;
-
-            if (currentSprintTime >= maxSprintTime)
-            {
-                currentSprintTime = maxSprintTime;
-            }
-        }
-        else
-        {
-            currentSprintTime = Mathf.Max(0f, currentSprintTime - Time.fixedDeltaTime);
             status.StopDepletion();
         }
 
@@ -193,7 +208,36 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
+
+    if (moveValue > 0)
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    else if (moveValue < 0)
+        transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+}
+
+
     private void Update()
+{
+    bool isCrouching = crouchAction.IsPressed();
+    bool isWalking = moveAction.IsPressed();
+    bool wantsToSprint = sprintAction.IsPressed();
+    bool canSprint = status != null && status.CanSprint;
+
+    bool isSprinting = wantsToSprint && isWalking && !isCrouching && canSprint;
+
+    // 애니메이션 상태 설정
+    animator.SetBool("IsSprinting", isSprinting);
+    animator.SetBool("Walk", isWalking && !isCrouching && !isSprinting);
+    animator.SetBool("IsCrouching", isCrouching);
+
+    // 디버그 및 속도 조정
+    Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
+
+    speed = isCrouching ? originalSpeed * crouchSpeedMultiplier : originalSpeed;
+
+    // 조력자 거리 경고
+    if (helperNPC != null)
     {
         if (stunController != null && stunController.IsStunned())
             return;
@@ -272,6 +316,8 @@ public class PlayerMove : MonoBehaviour
         }
 
     }
+}
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
