@@ -195,6 +195,19 @@ public class SpawnEnemy : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerMode>()?.Die();
+            Destroy(gameObject);
+
+
+        }
+    }
+
+
+
     private void ThrowObject(GameObject obstacle)
     {
         Rigidbody2D rbObstacle = obstacle.GetComponent<Rigidbody2D>();
@@ -209,7 +222,7 @@ public class SpawnEnemy : MonoBehaviour
         }
 
         // �÷��̾� ��/�Ʒ� �� ������ ��ġ�� ��ǥ��
-        Vector2 playerTop = (Vector2)player.position + Vector2.up * 0.2f;
+        Vector2 playerTop = (Vector2)player.position + Vector2.up * 0.5f;
         Vector2 playerBot = (Vector2)player.position + Vector2.down * 0.5f;
         Vector2[] targets = { playerTop, playerBot };
 
@@ -219,17 +232,6 @@ public class SpawnEnemy : MonoBehaviour
         rbObstacle.AddForce(throwDir * throwForce, ForceMode2D.Impulse);
 
         Destroy(obstacle, 3f);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            collision.GetComponent<PlayerMode>()?.Die();
-            Destroy(gameObject);
-
-
-        }
     }
 
     private void OnDrawGizmosSelected()
