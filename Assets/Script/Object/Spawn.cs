@@ -200,7 +200,7 @@ public class SpawnEnemy : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerMode>()?.Die();
+            collision.GetComponent<PlayerMove>()?.Die();
             Destroy(gameObject);
 
         }
