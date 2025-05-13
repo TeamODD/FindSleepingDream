@@ -9,17 +9,20 @@ public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
     private bool isWaitingForRecovery = false;
     private bool isRecoveryQueued = false;
 
-    private float depletionRate = 100f / 5f;
-    private float recoveryRate = 100f / 6f;
+    private float depletionRate = 100f / 5f;  // 5초 만에 100 소모
+    private float recoveryRate = 100f / 6f;   // 6초 만에 100 회복
 
     private float recoveryDelay = 3f;
     private float recoveryDelayTimer = 0f;
 
-    public bool CanSprint => !isRecovering && !isWaitingForRecovery;
+    public float GetEnergy() => energy;
+
+    // ✅ 에너지 1 이상이면 언제든 달리기 가능
+    public bool CanSprint => energy > 0f;
 
     void Update()
     {
-        // ✅ 스태미너 소모는 내부 상태에 따라 계속 지속
+        // ✅ 스태미너 소모 처리
         if (isDepleting)
         {
             energy -= depletionRate * Time.deltaTime;
@@ -28,13 +31,15 @@ public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
             {
                 energy = 0f;
                 isDepleting = false;
-                StartRecoveryDelay(); // 0되면 자동 회복 예약
+                StartRecoveryDelay();
             }
         }
 
+        // ✅ 회복 지연 처리
         if (isWaitingForRecovery)
         {
             recoveryDelayTimer -= Time.deltaTime;
+
             if (recoveryDelayTimer <= 0f)
             {
                 isWaitingForRecovery = false;
@@ -47,9 +52,11 @@ public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
             }
         }
 
+        // ✅ 회복 처리
         if (isRecovering)
         {
             energy += recoveryRate * Time.deltaTime;
+
             if (energy >= 100f)
             {
                 energy = 100f;
@@ -58,44 +65,29 @@ public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
         }
     }
 
-    public float GetEnergy() => energy;
-
-    public void UseEnergy(float amount)
-    {
-        energy -= amount;
-        if (energy <= 0f)
-        {
-            energy = 0f;
-            isDepleting = false;
-            StartRecoveryDelay();
-        }
-    }
-
     public void StartDepletion()
-{
-    if (energy > 0f)
     {
-        isDepleting = true;
-
-        // ✅ 회복 중이면 중단하고 지연 다시 시작
-        if (isRecovering)
+        if (energy > 0f)
         {
-            isRecovering = false;
-            StartRecoveryDelay(); // 회복 → 지연 전환
-        }
+            isDepleting = true;
 
-        // ✅ 회복 지연 중이면 타이머 리셋
-        if (isWaitingForRecovery)
-        {
-            recoveryDelayTimer = recoveryDelay;
+            // ✅ 회복 중이면 중단 + 회복 지연 재시작
+            if (isRecovering)
+            {
+                isRecovering = false;
+                StartRecoveryDelay();
+            }
+
+            // ✅ 회복 지연 중이면 타이머 리셋
+            if (isWaitingForRecovery)
+            {
+                recoveryDelayTimer = recoveryDelay;
+            }
         }
     }
-}
-
 
     public void StopDepletion()
     {
-        // ✅ 달리기 해제 시 정확히 끊음
         if (isDepleting)
         {
             isDepleting = false;
@@ -116,5 +108,17 @@ public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
     private void StartRecovery()
     {
         isRecovering = true;
+    }
+
+    // ✅ 외부에서 강제 사용 시 (사용은 안 하고 있음)
+    public void UseEnergy(float amount)
+    {
+        energy -= amount;
+        if (energy <= 0f)
+        {
+            energy = 0f;
+            isDepleting = false;
+            StartRecoveryDelay();
+        }
     }
 }
