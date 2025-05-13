@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class TableTop : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerTableStun stunComp = other.GetComponent<PlayerTableStun>();
+            PlayerTableStun stunComp = collision.gameObject.GetComponent<PlayerTableStun>();
             if (stunComp != null && !stunComp.IsCrouching())
             {
-                stunComp.TriggerStun(0.5f);
+                stunComp.TriggerStun(1f);
             }
         }
     }
