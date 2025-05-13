@@ -334,7 +334,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Die()
     {
-        if (isDead) return;
+        if (!isDead)
         isDead = true;
 
         if (rb != null)
