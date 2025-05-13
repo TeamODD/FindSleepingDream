@@ -1,6 +1,5 @@
 using UnityEngine;
-
-using UnityEngine;
+using UnityEngine.SceneManagement; // 게임 오버 화면 전환용
 
 public class Player_move : MonoBehaviour
 {
@@ -15,6 +14,7 @@ public class Player_move : MonoBehaviour
     private bool isHit = false;
     private float hitDuration = 1f;
     private float hitTimer = 0f;
+
 
     void Start()
     {
@@ -34,7 +34,6 @@ public class Player_move : MonoBehaviour
             if (hitTimer >= hitDuration)
             {
                 isHit = false;
-               
             }
         }
     }
@@ -55,15 +54,6 @@ public class Player_move : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
-    {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, 0.2f);
-        }
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         // 던진 장애물에만 반응
@@ -72,7 +62,7 @@ public class Player_move : MonoBehaviour
             isHit = true;
             hitTimer = 0f;
             rb.linearVelocity = Vector2.zero;
-       
+
         }
     }
 }
