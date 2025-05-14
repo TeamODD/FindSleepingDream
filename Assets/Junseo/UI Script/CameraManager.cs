@@ -203,14 +203,10 @@ public class CameraManager : MonoBehaviour
 
         if (player.position.x > boss2TriggerX + boss2EndOffset)
         {
-            if (boss2Object != null)
-                boss2Object.SetActive(false);
-
             state = CameraState.FollowPlayer;
-            returnTarget = new Vector3(player.position.x, 0f, -5f); // 부드럽게 이동할 목표
-
+            returnTarget = new Vector3(player.position.x, 0f, -5f);
             hardTarget = returnTarget;
-        
+            isReturningFromBoss = true;
         }
     }
 }
