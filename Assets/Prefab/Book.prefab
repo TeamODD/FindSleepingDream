@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5142531000962982834}
   - component: {fileID: 5515556312249609739}
   - component: {fileID: -9157377413808999220}
-  m_Layer: 6
+  - component: {fileID: 831392207028443254}
+  m_Layer: 9
   m_Name: Book
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -123,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.008199573, y: 0.057395697}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -133,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.410607, y: 3.7385807}
   m_EdgeRadius: 0
 --- !u!50 &-9157377413808999220
 Rigidbody2D:
@@ -162,3 +163,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &831392207028443254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905285686432737801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efcd071bc6e2c0342abf6bec0e65b327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 1.5

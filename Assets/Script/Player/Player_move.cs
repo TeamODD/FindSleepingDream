@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // 게임 오버 화면 전환용
 
 public class Player_move : MonoBehaviour
 {
@@ -11,9 +10,6 @@ public class Player_move : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
 
-    private bool isHit = false;
-    private float hitDuration = 1f;
-    private float hitTimer = 0f;
 
 
     void Start()
@@ -23,46 +19,45 @@ public class Player_move : MonoBehaviour
 
     void Update()
     {
-        if (!isHit)
+        if (isStunned)
         {
-            MovePlayer();
-            JumpPlayer();
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0f)
+                isStunned = false;
+
+            return; // 움직임 막기
         }
-        else
+        MovePlayer();
+        JumpPlayer();
+    }
+
+        void MovePlayer()
         {
-            hitTimer += Time.deltaTime;
-            if (hitTimer >= hitDuration)
+            float moveInput = Input.GetAxis("Horizontal");
+            rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        }
+
+        void JumpPlayer()
+        {
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+
+            if (isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
-                isHit = false;
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             }
         }
-    }
+    
 
-    void MovePlayer()
+    private bool isStunned = false;
+    private float stunDuration = 1.5f;
+    private float stunTimer;
+
+    
+    public void Stun(float duration)
     {
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        isStunned = true;
+        stunTimer = duration;
+       
     }
 
-    void JumpPlayer()
-    {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // 던진 장애물에만 반응
-        if (collision.gameObject.GetComponent<Highlight>() && !isHit)
-        {
-            isHit = true;
-            hitTimer = 0f;
-            rb.linearVelocity = Vector2.zero;
-
-        }
-    }
 }
