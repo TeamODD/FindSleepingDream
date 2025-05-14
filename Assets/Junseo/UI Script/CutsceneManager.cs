@@ -89,12 +89,6 @@ public class CutsceneManager : MonoBehaviour
         {
             action.OnCutsceneEnded(index);
         }
-
-        var allResetters = FindObjectsOfType<GameOverResetManager>();
-        foreach (var resetter in allResetters)
-        {
-            resetter.OnCutsceneEnded(index);
-        }
     }
 
     private void Update()
