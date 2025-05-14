@@ -2,19 +2,27 @@ using UnityEngine;
 
 public class ShakeEnemy : MonoBehaviour
 {
-    public float shakeAmount = 0.05f;   // Èçµé¸² ¼¼±â
-    public float shakeSpeed = 10f;      // Èçµé¸² ¼Óµµ
-    private Vector3 originalPosition;
+    public float shakeAmount = 0.05f;
+    public float shakeSpeed = 10f;
+
+    private float originalY;
+    private float originalZ;
 
     void Start()
     {
-        originalPosition = transform.localPosition;  // ÃÊ±â À§Ä¡ ÀúÀå
+        originalY = transform.localPosition.y;
+        originalZ = transform.localPosition.z;
     }
 
     void Update()
     {
-        float shakeX = Mathf.Sin(Time.time * shakeSpeed) * shakeAmount;
         float shakeY = Mathf.Cos(Time.time * shakeSpeed) * shakeAmount;
-        transform.localPosition = originalPosition + new Vector3(shakeX, shakeY, 0f);
+
+        // âœ… XëŠ” ê±´ë“œë¦¬ì§€ ì•ŠìŒ!
+        transform.localPosition = new Vector3(
+            transform.localPosition.x,                 // X: BossMoveê°€ ì»¨íŠ¸ë¡¤
+            originalY + shakeY,                        // Y: í”ë“¤ë¦¼
+            originalZ                                   // Z: ê·¸ëŒ€ë¡œ
+        );
     }
 }

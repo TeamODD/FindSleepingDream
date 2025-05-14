@@ -12,7 +12,7 @@ public class PlayerStatus : MonoBehaviour, PlayerStatusInterface
     private float depletionRate = 100f / 5f;  // 5초 만에 100 소모
     private float recoveryRate = 100f / 6f;   // 6초 만에 100 회복
 
-    private float recoveryDelay = 3f;
+    private float recoveryDelay = 1.5f;
     private float recoveryDelayTimer = 0f;
 
     public float GetEnergy() => energy;
