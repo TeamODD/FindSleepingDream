@@ -1690,6 +1690,7 @@ GameObject:
   - component: {fileID: 439216023}
   - component: {fileID: 439216026}
   - component: {fileID: 439216025}
+  - component: {fileID: 439216027}
   m_Layer: 0
   m_Name: Enemy2
   m_TagString: Untagged
@@ -1781,7 +1782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b2ae1940f2b4f47aea98a89865e379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3.8
+  moveSpeed: 3.6
   moveDelay: 2
   endX: 273
 --- !u!114 &439216024
@@ -1855,6 +1856,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0e000000
+--- !u!114 &439216027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439216019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360f1cf62860ca447a385f2b6d6f5462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetX: 270
 --- !u!1 &495520118 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 549142169847959546, guid: 075167c52d4b8a348a48bcf8023a134e, type: 3}
@@ -3035,6 +3049,7 @@ GameObject:
   - component: {fileID: 736546082}
   - component: {fileID: 736546084}
   - component: {fileID: 736546083}
+  - component: {fileID: 736546085}
   m_Layer: 0
   m_Name: UpperArm
   m_TagString: Untagged
@@ -3188,6 +3203,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.0475006, y: 2.9659736}
   m_EdgeRadius: 0
+--- !u!114 &736546085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736546079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360f1cf62860ca447a385f2b6d6f5462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetX: 10
 --- !u!1001 &739482510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3295,6 +3323,7 @@ GameObject:
   - component: {fileID: 761545045}
   - component: {fileID: 761545047}
   - component: {fileID: 761545046}
+  - component: {fileID: 761545048}
   m_Layer: 0
   m_Name: UnderArm
   m_TagString: Untagged
@@ -3446,6 +3475,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 13.771606, y: 1.3586979}
   m_EdgeRadius: 0
+--- !u!114 &761545048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761545042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360f1cf62860ca447a385f2b6d6f5462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetX: 10
 --- !u!1 &770373987
 GameObject:
   m_ObjectHideFlags: 0
@@ -5585,7 +5627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8
+      value: 170.5
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6911,7 +6953,6 @@ MonoBehaviour:
   - {x: 80, y: 0, z: 0}
   - {x: 100, y: 0, z: 0}
   - {x: 208, y: 0, z: 0}
-  - {x: 276, y: 0, z: 0}
   - {x: 296, y: 0, z: 0}
   triggerXPositions:
   - -8
@@ -6921,7 +6962,6 @@ MonoBehaviour:
   - 70.1
   - 90.1
   - 198.1
-  - 266.1
   - 286.1
   followMargin: 1
   smoothSpeed: 3
