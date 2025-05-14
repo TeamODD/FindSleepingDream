@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DreamPiece : MonoBehaviour, IInteractable
 {
-    public int cutsceneIndex = 0; // 이 드림피스에 연결될 컷씬 인덱스
+    public int[] cutsceneIndices; // ✅ 여러 컷씬 인덱스 입력 가능
 
     public void Interact()
     {
@@ -17,18 +17,17 @@ public class DreamPiece : MonoBehaviour, IInteractable
             }
         }
 
-        // CutsceneManager로 컷씬 실행
-        CutsceneManager manager = Object.FindFirstObjectByType<CutsceneManager>();
+        CutsceneManager manager = FindFirstObjectByType<CutsceneManager>();
         if (manager != null)
         {
-            Debug.Log("컷씬 실행! index: " + cutsceneIndex);
-            manager.ShowCutsceneSequence(cutsceneIndex);
+            Debug.Log("컷씬 시퀀스 실행! indices: " + string.Join(", ", cutsceneIndices));
+            manager.ShowCutsceneSequence(cutsceneIndices); // ✅ 배열로 넘김
         }
         else
         {
             Debug.LogWarning("CutsceneManager 를 찾을 수 없음!");
         }
 
-        Destroy(gameObject); // 드림피스 제거
+        Destroy(gameObject);
     }
 }
