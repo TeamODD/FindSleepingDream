@@ -8,39 +8,15 @@ public enum Direction
     Up, Down, Left, Right
 }
 
-
-public class MyCutsceneTrigger : MonoBehaviour
-{
-    [Tooltip("이 트리거에서 실행할 컷씬 번호")]
-    public int cutsceneIndex = 0;
-
-    private bool hasPlayed = false;
-
-    public void OnReset()
-    {
-        hasPlayed = false;
-        Debug.Log("컷씬 트리거 리셋됨!");
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!hasPlayed && other.CompareTag("Player"))
-        {
-            FindFirstObjectByType<CutsceneManager>()?.ShowCutsceneSequence(cutsceneIndex);
-            hasPlayed = true;
-        }
-    }
-}
-
 public class Rhythm : MonoBehaviour
 {
     public GameObject[] circles;
     public Sprite upArrow, downArrow, leftArrow, rightArrow;
     public Sprite PressedUp, PressedDown, PressedLeft, PressedRight;
 
-    public GameObject playerToMove;          // 성공 시 이동 대상
-    public float successTargetX = 0f;        // 성공 시 X 위치
-    public int failureCutsceneIndex = 0;     // 실패 시 컷씬 인덱스
+    public GameObject playerToMove;    // 성공 시 이동할 대상
+    public float successTargetX = 0f;  // 성공 시 x축 위치
+    public int failureCutsceneIndex = 0; // 실패 시 컷씬 인덱스
 
     private List<Direction> directions = new List<Direction>();
     private int currentIndex = 0;
@@ -49,27 +25,9 @@ public class Rhythm : MonoBehaviour
 
     private CutsceneManager cutsceneManager;
 
-    public void OnReset()
-    {
-        StopAllCoroutines();
-        inputEnabled = false;
-        round = 0;
-        currentIndex = 0;
-
-        ResetCircleSprites();
-
-        foreach (GameObject arrow in circles)
-            arrow.SetActive(false);
-
-        Debug.Log("🎵 Rhythm 리셋 완료");
-
-        // 게임 자동 시작
-        StartGame();
-    }
-
     private void Awake()
     {
-        // 시작 시 화살표 UI 숨기기
+        // 처음에 화살표 UI 숨기기
         foreach (GameObject arrow in circles)
         {
             arrow.SetActive(false);
@@ -80,6 +38,7 @@ public class Rhythm : MonoBehaviour
 
     public void StartGame()
     {
+        // 게임 시작 시 화살표 UI 보이게
         foreach (GameObject arrow in circles)
         {
             arrow.SetActive(true);
@@ -88,78 +47,58 @@ public class Rhythm : MonoBehaviour
         StartCoroutine(GameRoutine());
     }
 
-
     private IEnumerator GameRoutine()
-{
-    for (round = 1; round <= 3; round++)
     {
-        Debug.Log($"라운드 {round} 시작!");
-
-        currentIndex = 0;
-        GenerationDirections();
-        ResetCircleSprites();
-        DisplayDirections();
-        inputEnabled = true;
-
-        float timer = 5f;
-        while (timer > 0f && currentIndex < directions.Count)
+        for (round = 1; round <= 3; round++)
         {
-            timer -= Time.deltaTime;
-            yield return null;
-        }
+            Debug.Log("시작!");
 
-        inputEnabled = false;
+            currentIndex = 0;
+            GenerationDirections();
+            ResetCircleSprites();
+            DisplayDirections();
+            inputEnabled = true;
 
-        if (currentIndex >= directions.Count)
-        {
-            Debug.Log("라운드 성공!");
+            float timer = 5f;
+            while (timer > 0f && currentIndex < directions.Count)
+            {
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+
+            inputEnabled = false;
+
+            if (currentIndex >= directions.Count)
+            {
+                Debug.Log("성공!");
+
+                if (playerToMove != null)
+                {
+                    Vector3 current = playerToMove.transform.position;
+                    playerToMove.transform.position = new Vector3(successTargetX, current.y, current.z);
+                }
+            }
+            else
+            {
+                Debug.Log("실패!");
+
+                if (cutsceneManager != null)
+                {
+                    cutsceneManager.ShowCutsceneSequence(failureCutsceneIndex);
+                }
+            }
+
             yield return new WaitForSeconds(0.2f);
         }
-        else
+
+        Debug.Log("게임 끝!");
+
+        // 게임 종료 시 화살표 UI 다시 숨김
+        foreach (GameObject arrow in circles)
         {
-            Debug.Log("라운드 실패!");
-
-            // 화살표 숨기기
-            foreach (GameObject arrow in circles)
-                arrow.SetActive(false);
-
-            // 컷씬 즉시 실행
-            if (cutsceneManager != null)
-                cutsceneManager.ShowCutsceneSequence(failureCutsceneIndex);
-
-            // Rhythm 오브젝트는 잠시 후에 끄기
-            StartCoroutine(DeactivateSelfLater());
-
-            yield break; // 게임 종료
+            arrow.SetActive(false);
         }
     }
-
-    // 🎉 모든 라운드 성공했을 때만 도달함
-    Debug.Log("모든 라운드 성공! 순간이동 실행");
-
-    // 화살표 숨기기
-    foreach (GameObject arrow in circles)
-        arrow.SetActive(false);
-
-    // 순간이동
-    if (playerToMove != null)
-    {
-        Vector3 current = playerToMove.transform.position;
-        playerToMove.transform.position = new Vector3(successTargetX, current.y, current.z);
-    }
-
-    // Rhythm 오브젝트는 잠시 후에 끄기
-    StartCoroutine(DeactivateSelfLater());
-}
-
-
-    private IEnumerator DeactivateSelfLater()
-    {
-        yield return new WaitForSeconds(1f);
-        gameObject.SetActive(false);
-    }
-
-    
 
     private void Update()
     {
@@ -184,20 +123,9 @@ public class Rhythm : MonoBehaviour
         else
         {
             inputEnabled = false;
-            Debug.Log("입력 실패!");
-
-            foreach (GameObject arrow in circles)
-                arrow.SetActive(false);
-
-            if (cutsceneManager != null)
-                cutsceneManager.ShowCutsceneSequence(failureCutsceneIndex);
-
-            StartCoroutine(DeactivateSelfLater());
-
+            Debug.Log("실패!");
         }
     }
-
-
 
     private void GenerationDirections()
     {
