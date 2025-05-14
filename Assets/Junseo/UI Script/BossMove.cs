@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BossMove : MonoBehaviour
 {
+    
     public float moveSpeed = 3f;
     public float moveDelay = 1f;
     public float endX = 168f;
@@ -14,6 +15,8 @@ public class BossMove : MonoBehaviour
         timer = 0f;
         shouldMove = false;
     }
+
+
 
     void Update()
     {

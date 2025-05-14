@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a43a079e0c2497744801bdc5028b5786
+guid: a1556bb523baeea4b8cff9da5d6ec727
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4197860276205774954
-    second: p2_0
+      213: 5453189580479088943
+    second: Chase1AfterLo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: p2_0
+      name: Chase1AfterLo_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a68e7f31eabc14a30800000000000000
-      internalID: 4197860276205774954
+      spriteID: f29415df70f9dab40800000000000000
+      internalID: 5453189580479088943
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      p2_0: 4197860276205774954
+      Chase1AfterLo_0: 5453189580479088943
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
