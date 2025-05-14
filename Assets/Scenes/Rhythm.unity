@@ -363,7 +363,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: -182
   m_Sprite: {fileID: 21300000, guid: 73ff7617cb9e73f43bf6936b81c576c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -1498,14 +1498,14 @@ MonoBehaviour:
   - {fileID: 874587956}
   - {fileID: 1642064396}
   - {fileID: 2082345210}
-  upArrow: {fileID: -6470460504253458178, guid: c1d4dae7ac6901c4aa6e2b220d5c2708, type: 3}
-  downArrow: {fileID: -4178046375966092550, guid: 2a46ba951d59e8442b386fb1e0624814, type: 3}
-  leftArrow: {fileID: 6937817954938267909, guid: 3948fe8907034fb4c9da6ec1aba6de20, type: 3}
-  rightArrow: {fileID: -855298285791758126, guid: 142af441c1715da439bf7cf5d9888299, type: 3}
-  PressedUp: {fileID: 4349194590612477393, guid: 7b0ab0afe392a7640947553ef7f8dad0, type: 3}
-  PressedDown: {fileID: 3373621494162894196, guid: 57b48cce847b16941bbc084155f28e34, type: 3}
-  PressedLeft: {fileID: -6360116305524664329, guid: 969735c5f800ecd4e93358e715ffee35, type: 3}
-  PressedRight: {fileID: 8053899242462091416, guid: 00c9e7338331e914c942a90c242a7b8b, type: 3}
+  upArrow: {fileID: 21300000, guid: c1d4dae7ac6901c4aa6e2b220d5c2708, type: 3}
+  downArrow: {fileID: 21300000, guid: 2a46ba951d59e8442b386fb1e0624814, type: 3}
+  leftArrow: {fileID: 21300000, guid: 5a65bad6ff49fa340957e9662e0a241a, type: 3}
+  rightArrow: {fileID: 21300000, guid: 142af441c1715da439bf7cf5d9888299, type: 3}
+  PressedUp: {fileID: 21300000, guid: 7b0ab0afe392a7640947553ef7f8dad0, type: 3}
+  PressedDown: {fileID: 21300000, guid: 57b48cce847b16941bbc084155f28e34, type: 3}
+  PressedLeft: {fileID: 21300000, guid: 969735c5f800ecd4e93358e715ffee35, type: 3}
+  PressedRight: {fileID: 21300000, guid: 00c9e7338331e914c942a90c242a7b8b, type: 3}
 --- !u!4 &1177607816
 Transform:
   m_ObjectHideFlags: 0
