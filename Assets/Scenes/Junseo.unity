@@ -1476,7 +1476,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1557013538026691241, guid: 09ffcbf66f38c234e9c46a993e63e8ab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 09ffcbf66f38c234e9c46a993e63e8ab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9166,7 +9166,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.807693, y: 11.461538}
+    oldSize: {x: 8.178572, y: 10.642858}
     newSize: {x: 4, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
