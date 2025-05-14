@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private InputAction moveAction, jumpAction, sprintAction, crouchAction, interactAction;
     private bool isJumping;
+    private bool isCrouching;
     private Animator animator;
     public float speed = 3f;
     public float sprintMultiplier = 1.5f;
@@ -104,7 +105,7 @@ public class PlayerMove : MonoBehaviour
         if (hit.collider == null)
     Debug.LogWarning(">> 바닥에 안 닿음!");
 
-        if (hit.collider != null && !isJumping)
+        if (hit.collider != null && !isJumping && !isCrouching)
         {
             Debug.Log(">> 점프 입력됨");
             isJumping = true;
@@ -186,7 +187,6 @@ public class PlayerMove : MonoBehaviour
     {
         float moveValue = moveAction.ReadValue<Vector2>().x;
         bool isMoving = Mathf.Abs(moveValue) > 0.01f;
-        bool isCrouching = crouchAction.IsPressed();
         bool wantsToSprint = sprintAction.IsPressed();
         bool canSprint = status != null && status.CanSprint;
         float currentSpeed = speed;
@@ -199,6 +199,7 @@ public class PlayerMove : MonoBehaviour
         {
             currentSpeed = speed * sprintMultiplier;
             status.StartDepletion();
+            Debug.Log("달리기가능");
         }
         else
         {
@@ -208,16 +209,6 @@ public class PlayerMove : MonoBehaviour
                 status.StopDepletion();
             }
 
-            rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
-
-            if (moveValue > 0)
-            {
-                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            }
-            else if (moveValue < 0)
-            {
-                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            }
 
             //스턴시 행동 멈춤
             if (stunController != null && stunController.IsStunned())
@@ -228,12 +219,22 @@ public class PlayerMove : MonoBehaviour
 
 
          }
+        rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
+        if (moveValue > 0)
+        {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else if (moveValue < 0)
+        {
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
     }
 
 
     private void Update()
     {
-        bool isCrouching = crouchAction.IsPressed() && !isJumping;
+        isCrouching = crouchAction.IsPressed() && !isJumping;
+
         bool isWalking = moveAction.IsPressed();
         bool wantsToSprint = sprintAction.IsPressed();
         bool canSprint = status != null && status.CanSprint;
