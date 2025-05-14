@@ -3074,6 +3074,9 @@ MonoBehaviour:
   PressedDown: {fileID: 21300000, guid: 57b48cce847b16941bbc084155f28e34, type: 3}
   PressedLeft: {fileID: 21300000, guid: 969735c5f800ecd4e93358e715ffee35, type: 3}
   PressedRight: {fileID: 21300000, guid: 00c9e7338331e914c942a90c242a7b8b, type: 3}
+  playerToMove: {fileID: 983235227}
+  successTargetX: 200
+  failureCutsceneIndex: 12
 --- !u!4 &832665934
 Transform:
   m_ObjectHideFlags: 0
@@ -3916,6 +3919,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c58d468e2e0b243aa5213a7b2ec1ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RayObject:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &983235229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4580,7 +4586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8
+      value: 168.19
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.y
