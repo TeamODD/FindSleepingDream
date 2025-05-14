@@ -48,8 +48,6 @@ public class Rhythm : MonoBehaviour
 
     private IEnumerator GameRoutine()
     {
-        bool allRoundsSuccess = true;
-
         for (round = 1; round <= 3; round++)
         {
             Debug.Log($"라운드 {round} 시작!");
@@ -69,42 +67,42 @@ public class Rhythm : MonoBehaviour
 
             inputEnabled = false;
 
-            if (currentIndex >= directions.Count)
+           if (currentIndex >= directions.Count)
             {
                 Debug.Log("라운드 성공!");
-                yield return new WaitForSeconds(0.2f); // 다음 라운드 전 대기
+                yield return new WaitForSeconds(0.2f);
             }
             else
             {
-                Debug.Log("라운드 실패!");
+            Debug.Log("라운드 실패!");
 
-                allRoundsSuccess = false;
+            // 화살표 숨기기
+            foreach (GameObject arrow in circles)
+            {
+                arrow.SetActive(false);
+            }
 
-                // 컷씬 즉시 실행
-                if (cutsceneManager != null)
-                {
-                    cutsceneManager.ShowCutsceneSequence(failureCutsceneIndex);
-                }
+            // 컷씬 즉시 실행
+            if (cutsceneManager != null)
+            {
+                cutsceneManager.ShowCutsceneSequence(failureCutsceneIndex);
+            }
 
-                break; // 게임 종료
+            // Rhythm 오브젝트는 잠시 후에 끄기
+            StartCoroutine(DeactivateSelfLater());
+
+            yield break;
             }
         }
-
-        // 화살표 UI 숨기기
-        foreach (GameObject arrow in circles)
-        {
-            arrow.SetActive(false);
-        }
-
-        // 모든 라운드를 성공했을 때만 이동
-        if (allRoundsSuccess && playerToMove != null)
-        {
-            Vector3 current = playerToMove.transform.position;
-            playerToMove.transform.position = new Vector3(successTargetX, current.y, current.z);
-        }
-
-        Debug.Log("게임 끝!");
     }
+
+    private IEnumerator DeactivateSelfLater()
+    {
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
+    }
+
+    
 
     private void Update()
     {
@@ -130,8 +128,19 @@ public class Rhythm : MonoBehaviour
         {
             inputEnabled = false;
             Debug.Log("입력 실패!");
+
+            foreach (GameObject arrow in circles)
+                arrow.SetActive(false);
+
+            if (cutsceneManager != null)
+                cutsceneManager.ShowCutsceneSequence(failureCutsceneIndex);
+
+            StartCoroutine(DeactivateSelfLater());
+
         }
     }
+
+
 
     private void GenerationDirections()
     {
