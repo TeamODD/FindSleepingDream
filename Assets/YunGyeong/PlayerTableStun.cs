@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 
@@ -11,15 +10,14 @@ public class PlayerTableStun : MonoBehaviour
     private bool isForceCrouch = false; // ← 내부 상태 추적용
     private readonly Vector2 forcedCrouchSize = new Vector2(0.4167204f, 1.288672f);
     private readonly Vector2 forcedCrouchOffset = new Vector2(-0.05098605f, 0.6191691f);
-    private float stunElapsed = 0f;
-    private float currentStunDuration = 0f;
-    private float stunCooldown = 1f; // 스턴과 스턴 사이의 쿨타임 (초)
+    private float stunCooldown = 3f; // 스턴과 스턴 사이의 쿨타임 (초)
     private float cooldownTimer = 0f; // 현재 남은 쿨타임
     private bool isTouchingTableHead = false;
-
+    public LayerMask RayObject;
+    private InputAction crouchAction;
 
     private bool isStunned = false;
-    private float stunTimer = 0f;
+    private float stunTimer;
     private Coroutine blinkCoroutine;
 
     private float originalScaleY;
@@ -30,27 +28,29 @@ public class PlayerTableStun : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        crouchAction = InputSystem.actions.FindAction("Crouch");
         originalScaleY = transform.localScale.y;
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("TableHead"))
-        {
-            isTouchingTableHead = true;
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("TableHead"))
+    //    {
+    //        isTouchingTableHead = true;
 
-            if (cooldownTimer <= 0f)
-            {
-                TriggerStun(1f);
-                cooldownTimer = stunCooldown; // 1초 쿨타임 시작
-            }
-        }
-    }
+    //        if (cooldownTimer <= 0f)
+    //        {
+    //            TriggerStun(1.5f);
+    //            cooldownTimer = stunCooldown; // 1초 쿨타임 시작
+    //        }
+    //    }
+    //}
+
     private void Update()
     {
         if (cooldownTimer > 0f)
             cooldownTimer -= Time.deltaTime;
-
+        if(!isStunned) TriggerStun(1f);
         if (isStunned)
         {
             stunTimer -= Time.deltaTime;
@@ -71,7 +71,7 @@ public class PlayerTableStun : MonoBehaviour
                     StopCoroutine(blinkCoroutine);
                 spriteRenderer.color = Color.white;
             }
-            if (stunElapsed < 1f && !isTouchingTableHead)
+            if (!isTouchingTableHead)
             {
                 isForceCrouch = false; // 완전히 지나갔을 때만 일어날 수 있음
             }
@@ -88,45 +88,49 @@ public class PlayerTableStun : MonoBehaviour
             animator.SetBool("IsCrouching", true); // ⭐ 스턴 끝나도 강제쭈그리기 유지
         }
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("TableHead"))
-        {
-            isTouchingTableHead = false;
-        }
-    }
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("TableHead"))
+    //    {
+    //        isTouchingTableHead = false;
+    //    }
+    //}
 
     public void TriggerStun(float duration)
     {
-        currentStunDuration = duration;
-        stunElapsed = 0f;
-        isStunned = true;
-        stunTimer = duration;
-
-        Debug.Log("[PlayerTableStun] 스턴 발동");
-
-        if (playerMove != null)
+        if (Physics2D.Raycast(transform.position, Vector2.up, 5f, RayObject)&& !crouchAction.IsPressed())
         {
-            var rb = playerMove.GetComponent<Rigidbody2D>();
-            if (rb != null)
+            Debug.Log("123");
+            isStunned = true;
+            stunTimer = duration;
+
+            Debug.Log("[PlayerTableStun] 스턴 발동");
+
+
+            //if (playerMove != null)
+            //{
+            //    var rb = GetComponent<Rigidbody2D>();
+            //    if (rb != null)
+            //    {
+            //        rb.linearVelocity = Vector2.zero;
+            //        rb.bodyType = RigidbodyType2D.Kinematic; // 스턴 중엔 밀리지 않게!
+            //    }
+
+            //}
+
+            if (animator != null)
             {
-                rb.linearVelocity = Vector2.zero;
-                rb.bodyType = RigidbodyType2D.Kinematic; // 스턴 중엔 밀리지 않게!
+                animator.SetBool("Walk", false);
+                animator.SetBool("IsSprinting", false);
+                animator.SetBool("IsCrouching", true); // 강제 쭈그리기
+                animator.speed = 0f;
             }
 
-        }
-
-        if (animator != null)
-        {
-            animator.SetBool("Walk", false);
-            animator.SetBool("IsSprinting", false);
-            animator.SetBool("IsCrouching", true); // 강제 쭈그리기
-            animator.speed = 0f;
-        }
-
-        if (spriteRenderer != null)
-        {
-            blinkCoroutine = StartCoroutine(BlinkDuringStun());
+            if (spriteRenderer != null)
+            {
+                blinkCoroutine = StartCoroutine(BlinkDuringStun());
+            }
         }
 
     }

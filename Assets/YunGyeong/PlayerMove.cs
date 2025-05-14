@@ -15,8 +15,8 @@ public class PlayerMove : MonoBehaviour
     private float originalSpeed;
     public InventoryManager inventoryManager;
     private PlayerTableStun stunController;
-
-
+    public LayerMask RayObject;
+    public LayerMask FloorRay;
 
     // 쭈그렸을 때 박스콜라이더 축소로 책상 지나갈 수 있도록 선언
     private BoxCollider2D boxCollider;
@@ -87,7 +87,10 @@ public class PlayerMove : MonoBehaviour
             crouchOffset = new Vector2(originalOffset.x, originalOffset.y - (originalSize.y * 0.25f)); // 아래로 약간 내림
         }
         //스턴 되었을 때 모든 움직임 차단
-        stunController = GetComponent<PlayerTableStun>();
+        
+        
+            stunController = GetComponent<PlayerTableStun>();
+        
     }
 
     private void OnDestroy()
@@ -98,7 +101,7 @@ public class PlayerMove : MonoBehaviour
 
     void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.3f, LayerMask.GetMask("Ground"));
         if (hit.collider == null)
     Debug.LogWarning(">> 바닥에 안 닿음!");
 
@@ -180,97 +183,99 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-private void FixedUpdate()
-{
-    float moveValue = moveAction.ReadValue<Vector2>().x;
-    bool isMoving = Mathf.Abs(moveValue) > 0.01f;
-    bool isCrouching = crouchAction.IsPressed();
-    bool wantsToSprint = sprintAction.IsPressed();
-    bool canSprint = status != null && status.CanSprint;
-
-    float currentSpeed = speed;
-
-    // ✅ 실제 달리기 조건
-    bool shouldSprint = isMoving && wantsToSprint && !isCrouching && canSprint;
-
-    if (shouldSprint)
+    private void FixedUpdate()
     {
-        currentSpeed = speed * sprintMultiplier;
-        status.StartDepletion();
-    }
-    else
-    {
-        // ✅ 방향키를 떼면, 즉 "달리기 입력 중단"이면 무조건 StopDepletion 호출
-        if (!isMoving || !wantsToSprint)
+        float moveValue = moveAction.ReadValue<Vector2>().x;
+        bool isMoving = Mathf.Abs(moveValue) > 0.01f;
+        bool isCrouching = crouchAction.IsPressed();
+        bool wantsToSprint = sprintAction.IsPressed();
+        bool canSprint = status != null && status.CanSprint;
+        float currentSpeed = speed;
+        
+   
+        // ✅ 실제 달리기 조건
+        bool shouldSprint = isMoving && wantsToSprint && !isCrouching && canSprint;
+
+        if (shouldSprint)
         {
-            status.StopDepletion();
+            currentSpeed = speed * sprintMultiplier;
+            status.StartDepletion();
         }
+        else
+        {
+            // ✅ 방향키를 떼면, 즉 "달리기 입력 중단"이면 무조건 StopDepletion 호출
+            if (!isMoving || !wantsToSprint)
+            {
+                status.StopDepletion();
+            }
+
+            rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
+
+            if (moveValue > 0)
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+            else if (moveValue < 0)
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+
+            if (jumpAction.IsPressed() && !isJumping)
+            {
+                isJumping = true;
+                
+                rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            }
+
+            //스턴시 행동 멈춤
+            if (stunController != null && stunController.IsStunned())
+            {
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);  // 수평 이동 정지
+                return;
+            }
+
+
+    }
 
         rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
 
         if (moveValue > 0)
-        {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
         else if (moveValue < 0)
-        {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-
-        if (jumpAction.IsPressed() && !isJumping)
-        {
-            isJumping = true;
-            rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-        }
-
-        //스턴시 행동 멈춤
-        if (stunController != null && stunController.IsStunned())
-        {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);  // 수평 이동 정지
-            return;
-        }
-
     }
-
-rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
-
-    if (moveValue > 0)
-        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-    else if (moveValue < 0)
-        transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-}
 
 
     private void Update()
-{
-    bool isCrouching = crouchAction.IsPressed();
-    bool isWalking = moveAction.IsPressed();
-    bool wantsToSprint = sprintAction.IsPressed();
-    bool canSprint = status != null && status.CanSprint;
+    {
+        bool isCrouching = crouchAction.IsPressed() && !isJumping;
+        bool isWalking = moveAction.IsPressed();
+        bool wantsToSprint = sprintAction.IsPressed();
+        bool canSprint = status != null && status.CanSprint;
 
-    bool isSprinting = wantsToSprint && isWalking && !isCrouching && canSprint;
+        bool isSprinting = wantsToSprint && isWalking && !isCrouching && canSprint;
 
-    // 애니메이션 상태 설정
-    animator.SetBool("IsSprinting", isSprinting);
-    animator.SetBool("Walk", isWalking && !isCrouching && !isSprinting);
-    animator.SetBool("IsCrouching", isCrouching);
+        // 애니메이션 상태 설정
+        animator.SetBool("IsSprinting", isSprinting);
+        animator.SetBool("Walk", isWalking && !isCrouching && !isSprinting);
+        animator.SetBool("IsCrouching", isCrouching);
 
-    // 디버그 및 속도 조정
-    Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
+        // 디버그 및 속도 조정
+        Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
 
-    speed = isCrouching ? originalSpeed * crouchSpeedMultiplier : originalSpeed;
+        speed = isCrouching ? originalSpeed * crouchSpeedMultiplier : originalSpeed;
 
-        // 조력자 거리 경고
-        if (helperNPC != null)
-        {
-            Debug.Log("NPC");
-            float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
-            if (distanceToHelper > maxDistanceToHelper)
+            // 조력자 거리 경고
+            if (helperNPC != null)
             {
-                Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
-            }
+                Debug.Log("NPC");
+                float distanceToHelper = Vector2.Distance(transform.position, helperNPC.position);
+                if (distanceToHelper > maxDistanceToHelper)
+                {
+                    Debug.LogWarning("조력자가 너무 멀리 떨어졌습니다!");
+                }
         }
-        
+
         bool isForceCrouching = false;
 
         var tableStun = GetComponent<PlayerTableStun>();
@@ -278,37 +283,44 @@ rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
         {
             isForceCrouching = true;
         }
-            // ▶ 콜라이더 강제 조절
-            if (isForceCrouching)
-            {
-                boxCollider.size = new Vector2(0.4167204f, 1.288672f);
-                boxCollider.offset = new Vector2(-0.05098605f, 0.6191691f);
-                animator.SetBool("IsCrouching", true); // 애니메이션 쭈그리기 유지
 
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+        // ▶ 콜라이더 강제 조절
 
-            }
-            else if (isCrouching)
-            {
-                speed = originalSpeed * crouchSpeedMultiplier;
+        if (isCrouching || isForceCrouching)
+        {
+            speed = originalSpeed * crouchSpeedMultiplier;
 
-                boxCollider.size = crouchSize;
-                boxCollider.offset = crouchOffset;
-                animator.SetBool("IsCrouching", true);
-                Debug.Log("쭈그린 상태에서의 콜라이더");
+            boxCollider.size = crouchSize;
+            boxCollider.offset = crouchOffset;
+            animator.SetBool("IsCrouching", true);
+            Debug.Log("쭈그린 상태에서의 콜라이더");
 
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
 
-            }
-            else
-            {
-                boxCollider.size = originalSize;
-                boxCollider.offset = originalOffset;
-                animator.SetBool("IsCrouching", false);
+        }
 
-            }
-    
-}
+        else
+        {
+            boxCollider.size = originalSize;
+            boxCollider.offset = originalOffset;
+            animator.SetBool("IsCrouching", false);
+
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+        
+
+        if (Physics2D.Raycast(transform.position, Vector2.up, 5f, RayObject))
+        {
+            Debug.Log("hit");
+            animator.SetBool("IsCrouching", true);
+        }
+
+        if (Physics2D.Raycast(transform.position, Vector2.down, 0.1f, FloorRay))
+        {
+            isJumping = false;
+
+        }
+    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
