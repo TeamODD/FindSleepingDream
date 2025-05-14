@@ -11,6 +11,9 @@ TagManager:
   - Monster
   - Table
   - TableHead
+  - Platform
+  - Enemy
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -21,9 +24,9 @@ TagManager:
   - Table
   - Player
   - TableHead
-  - 
-  - 
-  - 
+  - Obstacle
+  - Enemy
+  - Spawner
   - 
   - 
   - 
