@@ -11,7 +11,6 @@ public class PlayerMove : MonoBehaviour
     public float speed = 3f;
     public float sprintMultiplier = 1.5f;
     public float jumpPower = 6f;
-    private float originalScaleY;
     private float originalSpeed;
     public InventoryManager inventoryManager;
     private PlayerTableStun stunController;
@@ -65,7 +64,7 @@ public class PlayerMove : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         interactAction.performed += OnInteractPerformed;
 
-        originalScaleY = transform.localScale.y;
+        
         originalSpeed = speed;
 
         jumpAction.performed += OnJumpPerformed;
@@ -220,13 +219,6 @@ public class PlayerMove : MonoBehaviour
                 transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
 
-            if (jumpAction.IsPressed() && !isJumping)
-            {
-                isJumping = true;
-                
-                rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            }
-
             //스턴시 행동 멈춤
             if (stunController != null && stunController.IsStunned())
             {
@@ -235,14 +227,7 @@ public class PlayerMove : MonoBehaviour
             }
 
 
-    }
-
-        rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
-
-        if (moveValue > 0)
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        else if (moveValue < 0)
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+         }
     }
 
 
@@ -278,8 +263,8 @@ public class PlayerMove : MonoBehaviour
 
         bool isForceCrouching = false;
 
-        var tableStun = GetComponent<PlayerTableStun>();
-        if (tableStun != null && tableStun.IsForceCrouching())  // ✅ 요거 추가로 만들어야 함!
+
+        if (stunController != null && stunController.IsForceCrouching())  // ✅ 요거 추가로 만들어야 함!
         {
             isForceCrouching = true;
         }
@@ -287,7 +272,7 @@ public class PlayerMove : MonoBehaviour
         // ▶ 콜라이더 강제 조절
 
         if (isCrouching || isForceCrouching)
-        {
+        {   
             speed = originalSpeed * crouchSpeedMultiplier;
 
             boxCollider.size = crouchSize;
@@ -313,25 +298,19 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.Log("hit");
             animator.SetBool("IsCrouching", true);
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
         }
 
         if (Physics2D.Raycast(transform.position, Vector2.down, 0.1f, FloorRay))
-        {
+        {   
             isJumping = false;
 
         }
-    }
-
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("floor"))
+        else
         {
-            isJumping = false;
+            isJumping = true;
         }
     }
-
-
     public void CollectItem(string itemName)
     {
         keyItems.Add(itemName);
