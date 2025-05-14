@@ -14,9 +14,9 @@ public class Rhythm : MonoBehaviour
     public Sprite upArrow, downArrow, leftArrow, rightArrow;
     public Sprite PressedUp, PressedDown, PressedLeft, PressedRight;
 
-    public GameObject playerToMove;    // 성공 시 이동할 대상
-    public float successTargetX = 0f;  // 성공 시 x축 위치
-    public int failureCutsceneIndex = 0; // 실패 시 컷씬 인덱스
+    public GameObject playerToMove;          // 성공 시 이동 대상
+    public float successTargetX = 0f;        // 성공 시 X 위치
+    public int failureCutsceneIndex = 0;     // 실패 시 컷씬 인덱스
 
     private List<Direction> directions = new List<Direction>();
     private int currentIndex = 0;
@@ -27,7 +27,7 @@ public class Rhythm : MonoBehaviour
 
     private void Awake()
     {
-        // 처음에 화살표 UI 숨기기
+        // 시작 시 화살표 UI 숨기기
         foreach (GameObject arrow in circles)
         {
             arrow.SetActive(false);
@@ -38,7 +38,6 @@ public class Rhythm : MonoBehaviour
 
     public void StartGame()
     {
-        // 게임 시작 시 화살표 UI 보이게
         foreach (GameObject arrow in circles)
         {
             arrow.SetActive(true);
@@ -49,9 +48,11 @@ public class Rhythm : MonoBehaviour
 
     private IEnumerator GameRoutine()
     {
+        bool allRoundsSuccess = true;
+
         for (round = 1; round <= 3; round++)
         {
-            Debug.Log("시작!");
+            Debug.Log($"라운드 {round} 시작!");
 
             currentIndex = 0;
             GenerationDirections();
@@ -70,34 +71,39 @@ public class Rhythm : MonoBehaviour
 
             if (currentIndex >= directions.Count)
             {
-                Debug.Log("성공!");
-
-                if (playerToMove != null)
-                {
-                    Vector3 current = playerToMove.transform.position;
-                    playerToMove.transform.position = new Vector3(successTargetX, current.y, current.z);
-                }
+                Debug.Log("라운드 성공!");
+                yield return new WaitForSeconds(0.2f); // 다음 라운드 전 대기
             }
             else
             {
-                Debug.Log("실패!");
+                Debug.Log("라운드 실패!");
 
+                allRoundsSuccess = false;
+
+                // 컷씬 즉시 실행
                 if (cutsceneManager != null)
                 {
                     cutsceneManager.ShowCutsceneSequence(failureCutsceneIndex);
                 }
-            }
 
-            yield return new WaitForSeconds(0.2f);
+                break; // 게임 종료
+            }
         }
 
-        Debug.Log("게임 끝!");
-
-        // 게임 종료 시 화살표 UI 다시 숨김
+        // 화살표 UI 숨기기
         foreach (GameObject arrow in circles)
         {
             arrow.SetActive(false);
         }
+
+        // 모든 라운드를 성공했을 때만 이동
+        if (allRoundsSuccess && playerToMove != null)
+        {
+            Vector3 current = playerToMove.transform.position;
+            playerToMove.transform.position = new Vector3(successTargetX, current.y, current.z);
+        }
+
+        Debug.Log("게임 끝!");
     }
 
     private void Update()
@@ -123,7 +129,7 @@ public class Rhythm : MonoBehaviour
         else
         {
             inputEnabled = false;
-            Debug.Log("실패!");
+            Debug.Log("입력 실패!");
         }
     }
 
