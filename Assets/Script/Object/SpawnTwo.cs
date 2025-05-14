@@ -22,9 +22,6 @@ public class SpawnTwo : MonoBehaviour
     private bool isChasing = false;
 
 
-    private float throwCooldown = 2f;
-    private float lastThrowTime;
-
 
 
     private IEnumerator Spawn()
