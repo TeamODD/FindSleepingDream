@@ -1,14 +1,15 @@
 using UnityEngine;
 
-public class ShakeHands: MonoBehaviour
+public class ShakeHands : MonoBehaviour
 {
     public float shakeAmount = 0.05f;
     public float shakeSpeed = 10f;
-    private Vector3 basePosition;
+    private Vector3 originalLocalPosition;
 
     void Start()
     {
-        basePosition = transform.position; // Ã³À½ À§Ä¡ ÀúÀå <- ÀÌ°É ÇØ¾ß Á¦´ë·Î Èçµé¸²
+        // âœ… ë¶€ëª¨ ê¸°ì¤€ ìƒëŒ€ ìœ„ì¹˜ ì €ìž¥
+        originalLocalPosition = transform.localPosition;
     }
 
     void LateUpdate()
@@ -16,6 +17,7 @@ public class ShakeHands: MonoBehaviour
         float shakeX = Mathf.Sin(Time.time * shakeSpeed) * shakeAmount;
         float shakeY = Mathf.Cos(Time.time * shakeSpeed) * shakeAmount;
 
-        transform.position = basePosition + new Vector3(shakeX, shakeY, 0f);
+        // âœ… ë¶€ëª¨ ê¸°ì¤€ ìœ„ì¹˜ì— í”ë“¤ë¦¼ë§Œ ë”í•¨
+        transform.localPosition = originalLocalPosition + new Vector3(shakeX, shakeY, 0f);
     }
 }

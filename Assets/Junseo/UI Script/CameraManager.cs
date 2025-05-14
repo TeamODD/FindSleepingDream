@@ -180,8 +180,8 @@ public class CameraManager : MonoBehaviour
 
         if (player.position.x > boss1TriggerX + boss1EndOffset)
         {
-            if (boss1Object != null)
-                boss1Object.SetActive(false);
+            //if (boss1Object != null)
+            //    boss1Object.SetActive(false);
 
             state = CameraState.FollowPlayer;
             isReturningFromBoss = true;
