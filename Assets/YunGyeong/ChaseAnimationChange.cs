@@ -15,8 +15,8 @@ public class ChaseAnimationChange : MonoBehaviour
         // 아직 추격 상태가 아니고, x 좌표가 0 초과면 추격 모드로 전환
         if (!IsChase && transform.position.x > 0f)
         {
-            IsChase = true;
-            animator.SetBool("IsChase", true);
+            IsChase = false;
+            animator.SetBool("IsChase", false);
             Debug.Log("[PlayerMove] 추격 애니메이션 상태 진입!");
         }
     }
