@@ -7,11 +7,11 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private InputAction moveAction, jumpAction, sprintAction, crouchAction, interactAction;
     private bool isJumping;
-    private bool isCrouching;
     private Animator animator;
     public float speed = 3f;
     public float sprintMultiplier = 1.5f;
     public float jumpPower = 6f;
+    private float originalScaleY;
     private float originalSpeed;
     public InventoryManager inventoryManager;
     private PlayerTableStun stunController;
@@ -43,14 +43,6 @@ public class PlayerMove : MonoBehaviour
     private GameObject throwableItemPrefab = null;
     // =============================
 
-
-    // 아이템 먹을때 오디오 설정
-    public AudioSource audioStar; // 별 먹을떄 소리
-    public AudioSource audioKey; // 열쇠 먹을 때 소리
-    public AudioSource audioButton; // 감옥 버튼
-    public AudioSource audioAttack; // 타임어택
-
-
     private void Start()
     {
 
@@ -65,7 +57,7 @@ public class PlayerMove : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         interactAction.performed += OnInteractPerformed;
 
-        
+        originalScaleY = transform.localScale.y;
         originalSpeed = speed;
 
         jumpAction.performed += OnJumpPerformed;
@@ -105,7 +97,7 @@ public class PlayerMove : MonoBehaviour
         if (hit.collider == null)
     Debug.LogWarning(">> 바닥에 안 닿음!");
 
-        if (hit.collider != null && !isJumping && !isCrouching)
+        if (hit.collider != null && !isJumping)
         {
             Debug.Log(">> 점프 입력됨");
             isJumping = true;
@@ -147,30 +139,8 @@ public class PlayerMove : MonoBehaviour
                 if (item != null)
                 {
                     item.Interact();
-                    if (!audioStar.isPlaying)  // 여기 오디오
-                        audioStar.Play();
                 }
             }
-
-            if (hit.CompareTag("Key"))
-            {
-                if (!audioKey.isPlaying)
-                    audioKey.Play();
-
-            }
-
-            if (hit.CompareTag("Button"))
-            {
-                if (!audioButton.isPlaying)
-                {
-                    audioButton.Play();
-                    audioAttack.Play();
-                }
-                
-
-            }
-
-
 
             if (hit.CompareTag("AttackItem"))
             {
@@ -187,6 +157,7 @@ public class PlayerMove : MonoBehaviour
     {
         float moveValue = moveAction.ReadValue<Vector2>().x;
         bool isMoving = Mathf.Abs(moveValue) > 0.01f;
+        bool isCrouching = crouchAction.IsPressed();
         bool wantsToSprint = sprintAction.IsPressed();
         bool canSprint = status != null && status.CanSprint;
         float currentSpeed = speed;
@@ -199,7 +170,6 @@ public class PlayerMove : MonoBehaviour
         {
             currentSpeed = speed * sprintMultiplier;
             status.StartDepletion();
-            Debug.Log("달리기가능");
         }
         else
         {
@@ -209,6 +179,23 @@ public class PlayerMove : MonoBehaviour
                 status.StopDepletion();
             }
 
+            rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
+
+            if (moveValue > 0)
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+            else if (moveValue < 0)
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+
+            if (jumpAction.IsPressed() && !isJumping)
+            {
+                isJumping = true;
+                
+                rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            }
 
             //스턴시 행동 멈춤
             if (stunController != null && stunController.IsStunned())
@@ -218,23 +205,20 @@ public class PlayerMove : MonoBehaviour
             }
 
 
-         }
+    }
+
         rb.linearVelocity = new Vector2(moveValue * currentSpeed, rb.linearVelocity.y);
+
         if (moveValue > 0)
-        {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
         else if (moveValue < 0)
-        {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
     }
 
 
     private void Update()
     {
-        isCrouching = crouchAction.IsPressed() && !isJumping;
-
+        bool isCrouching = crouchAction.IsPressed() && !isJumping;
         bool isWalking = moveAction.IsPressed();
         bool wantsToSprint = sprintAction.IsPressed();
         bool canSprint = status != null && status.CanSprint;
@@ -264,8 +248,8 @@ public class PlayerMove : MonoBehaviour
 
         bool isForceCrouching = false;
 
-
-        if (stunController != null && stunController.IsForceCrouching())  // ✅ 요거 추가로 만들어야 함!
+        var tableStun = GetComponent<PlayerTableStun>();
+        if (tableStun != null && tableStun.IsForceCrouching())  // ✅ 요거 추가로 만들어야 함!
         {
             isForceCrouching = true;
         }
@@ -273,7 +257,7 @@ public class PlayerMove : MonoBehaviour
         // ▶ 콜라이더 강제 조절
 
         if (isCrouching || isForceCrouching)
-        {   
+        {
             speed = originalSpeed * crouchSpeedMultiplier;
 
             boxCollider.size = crouchSize;
@@ -299,19 +283,25 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.Log("hit");
             animator.SetBool("IsCrouching", true);
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
         }
 
         if (Physics2D.Raycast(transform.position, Vector2.down, 0.1f, FloorRay))
-        {   
+        {
             isJumping = false;
 
         }
-        else
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("floor"))
         {
-            isJumping = true;
+            isJumping = false;
         }
     }
+
+
     public void CollectItem(string itemName)
     {
         keyItems.Add(itemName);
