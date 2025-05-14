@@ -7255,7 +7255,11 @@ GameObject:
   - component: {fileID: 1489713505}
   - component: {fileID: 1489713504}
   m_Layer: 0
+<<<<<<< HEAD
   m_Name: Chase1GO
+=======
+  m_Name: AfterCutscene
+>>>>>>> a770343 (AfterCutsceneFixing)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7273,9 +7277,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 320f7ee3533440c4aa6b13299e143f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   triggerCutsceneIndex: 12
   targetObject: {fileID: 983235227}
   targetX: 108
+=======
+  triggerCutsceneIndex: 13
+  targetObject: {fileID: 0}
+  targetX: 0
+>>>>>>> a770343 (AfterCutsceneFixing)
 --- !u!4 &1489713505
 Transform:
   m_ObjectHideFlags: 0
@@ -7812,10 +7822,15 @@ MonoBehaviour:
   - {fileID: 2768992596504944150, guid: 37261269657a24443a2bed72d371be0e, type: 3}
   - {fileID: 2914788299563756529, guid: 316ebc8e707dd49a7b43bffaf5af7600, type: 3}
   - {fileID: 5720948743362898469, guid: 9853ac54b61724f4d952802095da114f, type: 3}
+<<<<<<< HEAD
   - {fileID: 21300000, guid: b2283a67a01014b9da4b2e040b4ec4d3, type: 3}
   - {fileID: 21300000, guid: a1556bb523baeea4b8cff9da5d6ec727, type: 3}
   - {fileID: 21300000, guid: abc0f5958f094ca42ab419cd52064c17, type: 3}
   exitKey: 122
+=======
+  - {fileID: -6695950386315148514, guid: b2283a67a01014b9da4b2e040b4ec4d3, type: 3}
+  exitKey: 99
+>>>>>>> a770343 (AfterCutsceneFixing)
 --- !u!4 &1659656571
 Transform:
   m_ObjectHideFlags: 0
@@ -8989,14 +9004,17 @@ GameObject:
   - component: {fileID: 2121110704}
   - component: {fileID: 2121110706}
   - component: {fileID: 2121110705}
+<<<<<<< HEAD
   - component: {fileID: 2121110707}
+=======
+>>>>>>> a770343 (AfterCutsceneFixing)
   m_Layer: 0
   m_Name: ENEMY
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2121110701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9156,6 +9174,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 7.6539307, y: 11.461538}
   m_EdgeRadius: 0
+<<<<<<< HEAD
 --- !u!114 &2121110707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9168,6 +9187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec19e6e5c979b244a280c27959eda6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+>>>>>>> a770343 (AfterCutsceneFixing)
 --- !u!1001 &4864233311433287036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9325,9 +9346,12 @@ SceneRoots:
   - {fileID: 72277553}
   - {fileID: 1341008311}
   - {fileID: 1489713505}
+<<<<<<< HEAD
   - {fileID: 1159956534}
   - {fileID: 1538797036}
   - {fileID: 682572229}
   - {fileID: 1945516870}
   - {fileID: 1516210815}
   - {fileID: 439216021}
+=======
+>>>>>>> a770343 (AfterCutsceneFixing)
