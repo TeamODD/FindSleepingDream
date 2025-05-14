@@ -1,10 +1,19 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Junseo/Image/ImgFix/Chase1AfterLo.png.meta
 guid: a1556bb523baeea4b8cff9da5d6ec727
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 5453189580479088943
     second: Chase1AfterLo_0
+========
+guid: abc0f5958f094ca42ab419cd52064c17
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -499617760911808562
+    second: Chase2GO_0
+>>>>>>>> 40a0698 (Chase1/LockerGameOverCutScene):Assets/Junseo/Image/ImgFix/Chase2GO.png.meta
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +135,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
+<<<<<<<< HEAD:Assets/Junseo/Image/ImgFix/Chase1AfterLo.png.meta
       name: Chase1AfterLo_0
+========
+      name: Chase2GO_0
+>>>>>>>> 40a0698 (Chase1/LockerGameOverCutScene):Assets/Junseo/Image/ImgFix/Chase2GO.png.meta
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +154,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
+<<<<<<<< HEAD:Assets/Junseo/Image/ImgFix/Chase1AfterLo.png.meta
       spriteID: f29415df70f9dab40800000000000000
       internalID: 5453189580479088943
+========
+      spriteID: ec720652b400119f0800000000000000
+      internalID: -499617760911808562
+>>>>>>>> 40a0698 (Chase1/LockerGameOverCutScene):Assets/Junseo/Image/ImgFix/Chase2GO.png.meta
       vertices: []
       indices: 
       edges: []
@@ -161,7 +179,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+<<<<<<<< HEAD:Assets/Junseo/Image/ImgFix/Chase1AfterLo.png.meta
       Chase1AfterLo_0: 5453189580479088943
+========
+      Chase2GO_0: -499617760911808562
+>>>>>>>> 40a0698 (Chase1/LockerGameOverCutScene):Assets/Junseo/Image/ImgFix/Chase2GO.png.meta
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
