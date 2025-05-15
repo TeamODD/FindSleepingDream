@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic; // 인벤토리용
+using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -41,7 +42,55 @@ public class PlayerMove : MonoBehaviour
     private HashSet<string> keyItems = new HashSet<string>();
     private int dreamShardCount = 0;
     private GameObject throwableItemPrefab = null;
+
     // =============================
+
+private bool isInputBlocked = false;
+
+public void SetInputBlocked(bool blocked)
+{
+    isInputBlocked = blocked;
+    Debug.Log($"[Player] 입력 전체 차단 상태: {blocked}");
+}
+
+public void BlockInputForSeconds(float duration)
+{
+    StartCoroutine(BlockInputTemporarily(duration));
+}
+
+    private IEnumerator BlockInputTemporarily(float seconds)
+    {
+        isInputBlocked = true;
+        Debug.Log($"⏱️ {seconds}초간 입력 전체 차단");
+        yield return new WaitForSeconds(seconds);
+        isInputBlocked = false;
+        Debug.Log("✅ 입력 다시 가능");
+    }
+
+private bool isMoveBlocked = false;
+
+public void SetMoveBlocked(bool blocked)
+{
+    isMoveBlocked = blocked;
+    Debug.Log($"[Player] 이동 차단 상태: {blocked}");
+}
+
+public void BlockMoveForSeconds(float duration)
+{
+    StartCoroutine(BlockMoveTemporarily(duration));
+}
+
+private IEnumerator BlockMoveTemporarily(float seconds)
+{
+    isMoveBlocked = true;
+    Debug.Log($"⏱️ {seconds}초간 이동만 차단");
+    yield return new WaitForSeconds(seconds);
+    isMoveBlocked = false;
+    Debug.Log("✅ 이동 다시 가능");
+}
+
+
+
 
     private void Start()
     {
@@ -57,7 +106,7 @@ public class PlayerMove : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         interactAction.performed += OnInteractPerformed;
 
-        
+
         originalSpeed = speed;
 
         jumpAction.performed += OnJumpPerformed;
@@ -79,10 +128,10 @@ public class PlayerMove : MonoBehaviour
             crouchOffset = new Vector2(originalOffset.x, originalOffset.y - (originalSize.y * 0.25f)); // 아래로 약간 내림
         }
         //스턴 되었을 때 모든 움직임 차단
-        
-        
-            stunController = GetComponent<PlayerTableStun>();
-        
+
+
+        stunController = GetComponent<PlayerTableStun>();
+
     }
 
     private void OnDestroy()
@@ -93,6 +142,8 @@ public class PlayerMove : MonoBehaviour
 
     void OnJumpPerformed(InputAction.CallbackContext context)
     {
+        if (isInputBlocked || isMoveBlocked) return;
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.3f, LayerMask.GetMask("Ground"));
         if (hit.collider == null)
     Debug.LogWarning(">> 바닥에 안 닿음!");
@@ -155,6 +206,13 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+    if (isInputBlocked || isMoveBlocked)
+    {
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // 이동 정지
+        return;
+    }
+
         float moveValue = moveAction.ReadValue<Vector2>().x;
         bool isMoving = Mathf.Abs(moveValue) > 0.01f;
         bool wantsToSprint = sprintAction.IsPressed();
@@ -203,6 +261,22 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        if (isInputBlocked)
+    {
+        animator.SetBool("Walk", false);
+        animator.SetBool("IsSprinting", false);
+        animator.SetBool("IsCrouching", false);
+        return;
+    }
+
+    if (isMoveBlocked)
+    {
+        // 이동만 막는 상태: 이동 관련 애니메이션도 끔
+        animator.SetBool("Walk", false);
+        animator.SetBool("IsSprinting", false);
+        animator.SetBool("IsCrouching", false);
+        return;
+    }
         isCrouching = crouchAction.IsPressed() && !isJumping;
 
         bool isWalking = moveAction.IsPressed();
