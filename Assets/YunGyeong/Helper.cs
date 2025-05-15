@@ -124,6 +124,11 @@ public class Helper : MonoBehaviour
                 }
                 break;
         }
+        //플레이어가 일정 좌표 지나갈 시에 조력자 파괴
+        if (playerTransform != null && playerTransform.position.x >= 90.1f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void MoveInDirection(Vector2 dir)
