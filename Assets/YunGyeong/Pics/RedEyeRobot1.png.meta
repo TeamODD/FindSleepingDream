@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RedEyeRobot1_0: 1627462703362571736
+      RedEyeRobot1_1: -7170851542254065786
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
