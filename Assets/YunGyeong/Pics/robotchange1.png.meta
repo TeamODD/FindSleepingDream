@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 334870e2622d6c349a90ba4dd9568c64
+guid: d1f3cc6a9a9e7b1458bf99f7abb441c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1165485568949892092
-    second: helper_stand_0
+      213: 334864538008935614
+    second: robotchange1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 21
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: helper_stand_0
+      name: robotchange1_0
       rect:
         serializedVersion: 2
-        x: 37
-        y: 0
-        width: 24
-        height: 93
+        x: 35
+        y: 1
+        width: 47
+        height: 98
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40cc5efcc0d53dfe0800000000000000
-      internalID: -1165485568949892092
+      spriteID: ebcd5ebe58da5a400800000000000000
+      internalID: 334864538008935614
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      helper_stand_0: -1165485568949892092
+      robotchange1_0: 334864538008935614
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
