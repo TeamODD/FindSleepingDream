@@ -14,19 +14,52 @@ public class CutsceneManager : MonoBehaviour
 
     private Coroutine currentSequence = null;
 
-    private IEnumerator WaitForKeyDownUnscaled(KeyCode key)
-    {
-        yield return new WaitUntil(() => !Input.GetKey(key));
-        yield return new WaitUntil(() => Input.GetKeyDown(key));
-    }
+    
 
-    private void SwitchCutsceneSprite(int index)
-    {
-        if (index < 0 || index >= cutsceneSprites.Length) return;
-        cutsceneImage.sprite = cutsceneSprites[index];
-        showTimer = 0f;
-        Debug.Log($"컷씬 전환! Index: {index}");
-    }
+
+    private IEnumerator WaitForKeyDownUnscaled(KeyCode key)
+{
+    // 먼저 눌린 상태면 무시 (이전 프레임 잔재)
+    yield return new WaitUntil(() => !Input.GetKey(key));
+
+    // 진짜 누르는 순간 기다림
+    yield return new WaitUntil(() => Input.GetKeyDown(key));
+}
+
+
+private void SwitchCutsceneSprite(int index)
+{
+    if (index < 0 || index >= cutsceneSprites.Length) return;
+
+    cutsceneImage.sprite = cutsceneSprites[index];
+    showTimer = 0f;
+    Debug.Log($"컷씬 전환! Index: {index}");
+}
+
+
+    public void HideCutscene(bool skipTimeResume = false)
+{
+    cutsceneImage.gameObject.SetActive(false);
+    isShowing = false;
+
+    if (!skipTimeResume)
+        Time.timeScale = 1f;
+
+    Debug.Log("컷씬 숨김");
+}
+
+
+
+    void Update()
+{
+    if (!isShowing) return;
+
+    showTimer += Time.unscaledDeltaTime;
+
+    // 더 이상 여기서 키 입력으로 닫지 않음
+    // 키 입력은 시퀀스 내부에서만 처리
+}
+
 
     public void ShowCutscene(int index)
     {
@@ -42,15 +75,14 @@ public class CutsceneManager : MonoBehaviour
         showTimer = 0f;
 
         Time.timeScale = 0f;
+        Debug.Log($"컷씬 실행! Index: {index}");
     }
 
-    public void HideCutscene(bool skipTimeResume = false)
+    public void HideCutscene()
     {
         cutsceneImage.gameObject.SetActive(false);
         isShowing = false;
-
-        if (!skipTimeResume)
-            Time.timeScale = 1f;
+        Time.timeScale = 1f;
 
         Debug.Log("컷씬 숨김");
     }
@@ -62,43 +94,23 @@ public class CutsceneManager : MonoBehaviour
     }
 
     private IEnumerator ShowSequenceCoroutine(int[] indices)
+{
+    ShowCutscene(indices[0]);
+
+    for (int i = 1; i < indices.Length; i++)
     {
-        ShowCutscene(indices[0]);
-
-        for (int i = 1; i < indices.Length; i++)
-        {
-            yield return WaitForKeyDownUnscaled(exitKey);
-            SwitchCutsceneSprite(indices[i]);
-        }
-
+        // 입력 기다림 (unscaled)
         yield return WaitForKeyDownUnscaled(exitKey);
 
-        // 컷씬 끝났다고 알림
-        NotifyCutsceneEnded(indices[indices.Length - 1]);
-
-        HideCutscene();
-        Time.timeScale = 1f;
-        currentSequence = null;
+        SwitchCutsceneSprite(indices[i]);
     }
 
-    private void NotifyCutsceneEnded(int index)
-    {
-        var allActions = FindObjectsOfType<AfterCutscene>();
-        foreach (var action in allActions)
-        {
-            action.OnCutsceneEnded(index);
-        }
+    yield return WaitForKeyDownUnscaled(exitKey);
+    HideCutscene();
+    Time.timeScale = 1f;
+    currentSequence = null;
+}
 
-        var allResetters = FindObjectsOfType<GameOverResetManager>();
-        foreach (var resetter in allResetters)
-        {
-            resetter.OnCutsceneEnded(index);
-        }
-    }
 
-    private void Update()
-    {
-        if (!isShowing) return;
-        showTimer += Time.unscaledDeltaTime;
-    }
+
 }
