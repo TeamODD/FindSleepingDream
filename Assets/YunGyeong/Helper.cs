@@ -125,7 +125,7 @@ public class Helper : MonoBehaviour
                 break;
         }
         //플레이어가 일정 좌표 지나갈 시에 조력자 파괴
-        if (playerTransform != null && playerTransform.position.x >= 90.1f)
+        if (playerTransform != null && playerTransform.position.x >= 89.3f)
         {
             Destroy(gameObject);
         }

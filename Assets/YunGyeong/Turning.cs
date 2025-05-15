@@ -3,8 +3,8 @@ using UnityEngine;
 public class Turning : MonoBehaviour
 {
     public Transform playerTransform;
-    public float triggerX = 0.66f; // 앞보기
-    public float resetX = 5.34f;   // 뒤돌기
+    public float triggerX = 60.03f; // 앞보기
+    public float resetX = 64f;   // 뒤돌기
     private Animator animator;
     private bool isFacingFront = false; // 지금 앞 보고 있는 상태
 
@@ -25,7 +25,7 @@ public class Turning : MonoBehaviour
         float playerX = playerTransform.position.x;
 
         // 0.66 넘을 때만 앞보기 (지금 뒤 보고 있는 경우만)
-        if (!isFacingFront && playerX >= triggerX && playerX < 1f)
+        if (!isFacingFront && playerX >= triggerX && playerX < 62f)
         {
             animator.SetTrigger("Front");
             isFacingFront = true;

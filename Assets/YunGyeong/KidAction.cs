@@ -9,6 +9,7 @@ public class KidAction : MonoBehaviour
     public float checkDelay = 0.5f;
     public bool defaultLookingRight = true;
     public float stopDistance = 3f; //  캐릭터마다 거리 다르게!
+    public float minY = -2.89f;
 
     private bool Walk = false;
     private SpriteRenderer spriteRenderer;
@@ -45,7 +46,13 @@ public class KidAction : MonoBehaviour
             Vector3 currentPos = transform.position;
             Vector3 targetPos = player.position;
 
-           
+
+            if (currentPos.y < minY)
+            {
+                currentPos.y = minY;
+                transform.position = currentPos;
+            }
+
             targetPos.z = currentPos.z;
 
             float distance = Vector3.Distance(currentPos, player.position);
