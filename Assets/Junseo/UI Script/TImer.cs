@@ -13,9 +13,26 @@ public class Timer : MonoBehaviour
     private bool timerStarted = false;
     private float timer = 0f;
     public float duration = 15f;  // 15초부터 시작
+    private bool timerJustStarted = false;
+
+
 
     void Update()
     {
+
+        timerJustStarted = false; // 매 프레임 초기화
+
+        if (!timerStarted && Mathf.Abs(player.position.x - targetPosition.x) < positionThreshold)
+        {
+            timerStarted = true;
+            timer = duration;
+            timerJustStarted = true;
+
+            if (timerText != null)
+                timerText.gameObject.SetActive(true);
+
+            Debug.Log("타이머 시작!");
+        }
         // ✅ X축 조건 확인
         if (!timerStarted && Mathf.Abs(player.position.x - targetPosition.x) < positionThreshold)
         {
@@ -62,4 +79,14 @@ public class Timer : MonoBehaviour
             timerText.gameObject.SetActive(false);
         Debug.Log("타이머 숨김");
     }
+    
+    public bool IsTimerFinished()
+{
+    return !timerStarted && timer <= 0f;
+}
+
+public bool TimerJustStarted()
+{
+    return timerJustStarted;
+}
 }
