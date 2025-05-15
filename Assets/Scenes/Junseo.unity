@@ -1999,6 +1999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0e000000
+  audiosource: {fileID: 0}
 --- !u!114 &439216027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2311,6 +2312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0c000000
+  audiosource: {fileID: 0}
 --- !u!1 &580349554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,7 +2728,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3848518110646621553, guid: b5a8b7111f0c7451680587f1cb4eb3ee, type: 3}
+  m_Sprite: {fileID: 6937817954938267909, guid: 03c02e777bc990e44a199bc4baf25adc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2980,6 +2982,7 @@ GameObject:
   - component: {fileID: 706261163}
   - component: {fileID: 706261162}
   - component: {fileID: 706261161}
+  - component: {fileID: 706261164}
   m_Layer: 0
   m_Name: Chase1CutTrig
   m_TagString: Untagged
@@ -2994,12 +2997,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706261160}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 06000000
+  audiosource: {fileID: 0}
 --- !u!61 &706261162
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3061,6 +3065,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &706261164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706261160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf88462f5be9ea428302a91e75c672c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps:
+  - cutsceneIndex: 6
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 1
+    autoCloseFinal: 1
+    finalExitKey: 0
+  fadeDuration: 1
+  audioSource: {fileID: 0}
 --- !u!1001 &712431710
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3166,6 +3195,7 @@ GameObject:
   - component: {fileID: 731186409}
   - component: {fileID: 731186408}
   - component: {fileID: 731186407}
+  - component: {fileID: 731186410}
   m_Layer: 0
   m_Name: Chase2CutTrig
   m_TagString: Untagged
@@ -3180,12 +3210,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731186406}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 07000000
+  audiosource: {fileID: 0}
 --- !u!61 &731186408
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3247,6 +3278,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &731186410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731186406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf88462f5be9ea428302a91e75c672c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps:
+  - cutsceneIndex: 7
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 1
+    autoCloseFinal: 1
+    finalExitKey: 0
+  fadeDuration: 1
+  audioSource: {fileID: 0}
 --- !u!1 &736546079
 GameObject:
   m_ObjectHideFlags: 0
@@ -3368,6 +3424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0e000000
+  audiosource: {fileID: 0}
 --- !u!61 &736546084
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3640,6 +3697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0e000000
+  audiosource: {fileID: 0}
 --- !u!61 &761545047
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5221,6 +5279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 
+  audiosource: {fileID: 0}
 --- !u!4 &1026257320
 Transform:
   m_ObjectHideFlags: 0
@@ -5838,7 +5897,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6514,6 +6573,7 @@ GameObject:
   - component: {fileID: 1326234176}
   - component: {fileID: 1326234175}
   - component: {fileID: 1326234174}
+  - component: {fileID: 1326234177}
   m_Layer: 0
   m_Name: CutsceneTriggerOb
   m_TagString: Untagged
@@ -6528,12 +6588,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326234173}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0100000002000000030000000400000005000000
+  audiosource: {fileID: 0}
 --- !u!61 &1326234175
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6589,12 +6650,77 @@ Transform:
   m_GameObject: {fileID: 1326234173}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: -3, z: 0}
+  m_LocalPosition: {x: -7, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1326234177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326234173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf88462f5be9ea428302a91e75c672c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps:
+  - cutsceneIndex: 1
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 0
+    autoCloseFinal: 0
+    finalExitKey: 0
+  - cutsceneIndex: 2
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 0
+    autoCloseFinal: 0
+    finalExitKey: 0
+  - cutsceneIndex: 3
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 0
+    autoCloseFinal: 0
+    finalExitKey: 0
+  - cutsceneIndex: 4
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 0
+    autoCloseFinal: 0
+    finalExitKey: 0
+  - cutsceneIndex: 5
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 1
+    autoCloseFinal: 1
+    finalExitKey: 0
+  fadeDuration: 1
+  audioSource: {fileID: 0}
 --- !u!1 &1333695995
 GameObject:
   m_ObjectHideFlags: 0
@@ -6677,6 +6803,53 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 134, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1338087666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1338087668}
+  - component: {fileID: 1338087667}
+  m_Layer: 0
+  m_Name: AutoCutSceneTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1338087667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338087666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf88462f5be9ea428302a91e75c672c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps: []
+  fadeDuration: 1
+  audioSource: {fileID: 0}
+--- !u!4 &1338087668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338087666}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.225643, y: -2.8992276, z: 1.881749}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8116,6 +8289,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b2283a67a01014b9da4b2e040b4ec4d3, type: 3}
   - {fileID: 21300000, guid: a1556bb523baeea4b8cff9da5d6ec727, type: 3}
   - {fileID: 21300000, guid: abc0f5958f094ca42ab419cd52064c17, type: 3}
+  - {fileID: -3095667689817373611, guid: 0572cb98bd6cfe547a3649040a2c8c68, type: 3}
+  - {fileID: -855298285791758126, guid: 8c164dbaffc4c8c40ac9908d673b939c, type: 3}
   exitKey: 122
 --- !u!4 &1659656571
 Transform:
@@ -8484,6 +8659,135 @@ MonoBehaviour:
   parallaxFactor: 0.3
   zoneAnchor: {fileID: 1800660354}
   visibleZone: 1
+--- !u!1 &1790686414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1790686417}
+  - component: {fileID: 1790686416}
+  - component: {fileID: 1790686415}
+  - component: {fileID: 1790686418}
+  m_Layer: 0
+  m_Name: CutsceneTriggerOb (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1790686415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790686414}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneIndices: 0f00000010000000
+  audiosource: {fileID: 0}
+--- !u!61 &1790686416
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790686414}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!4 &1790686417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790686414}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 200, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1790686418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790686414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf88462f5be9ea428302a91e75c672c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steps:
+  - cutsceneIndex: 15
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 0
+    autoCloseFinal: 0
+    finalExitKey: 0
+  - cutsceneIndex: 16
+    waitTime: 4
+    transition: 0
+    sfx: {fileID: 0}
+    onTransition:
+      m_PersistentCalls:
+        m_Calls: []
+    isFinalStep: 1
+    autoCloseFinal: 1
+    finalExitKey: 0
+  fadeDuration: 1
+  audioSource: {fileID: 0}
 --- !u!1 &1800660352
 GameObject:
   m_ObjectHideFlags: 0
@@ -9411,6 +9715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0c000000
+  audiosource: {fileID: 0}
 --- !u!61 &2121110706
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9619,6 +9924,7 @@ SceneRoots:
   - {fileID: 1990486444}
   - {fileID: 1026257320}
   - {fileID: 1326234176}
+  - {fileID: 1790686417}
   - {fileID: 706261163}
   - {fileID: 731186409}
   - {fileID: 2121110703}
@@ -9635,3 +9941,4 @@ SceneRoots:
   - {fileID: 263313915}
   - {fileID: 445273716}
   - {fileID: 248782525}
+  - {fileID: 1338087668}
