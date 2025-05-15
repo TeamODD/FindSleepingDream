@@ -3,10 +3,10 @@ using UnityEngine;
 public class Turning : MonoBehaviour
 {
     public Transform playerTransform;
-    public float triggerX = 0.66f; // 플레이어 X 좌표가 이 이상일 때 발동
-    public float resetX = 5.34f;
+    public float triggerX = 0.66f; // 앞보기
+    public float resetX = 5.34f;   // 뒤돌기
     private Animator animator;
-    private bool triggered = false;
+    private bool isFacingFront = false; // 지금 앞 보고 있는 상태
 
     void Start()
     {
@@ -15,24 +15,27 @@ public class Turning : MonoBehaviour
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) playerTransform = player.transform;
-        } 
-}
+        }
+    }
+
     void Update()
     {
         if (playerTransform == null) return;
 
         float playerX = playerTransform.position.x;
 
-        if (!triggered && playerX >= triggerX)
+        // 0.66 넘을 때만 앞보기 (지금 뒤 보고 있는 경우만)
+        if (!isFacingFront && playerX >= triggerX && playerX < 1f)
         {
-            animator.SetTrigger("Turn");
-            triggered = true;
+            animator.SetTrigger("Front");
+            isFacingFront = true;
         }
 
-        // 리셋 조건 (다시 아래로 내려가면 triggered = false)
-        if (triggered && playerX < resetX)
+        // 5.34 넘을 때만 뒤돌기 (지금 앞 보고 있는 경우만)s
+        if (isFacingFront && playerX >= resetX)
         {
-            triggered = false;
+            animator.SetTrigger("Back");
+            isFacingFront = false;
         }
     }
 }
