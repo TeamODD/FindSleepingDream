@@ -43,6 +43,14 @@ public class PlayerMove : MonoBehaviour
     private GameObject throwableItemPrefab = null;
     // =============================
 
+
+    // 아이템 먹을때 오디오 설정
+    public AudioSource audioStar; // 별 먹을떄 소리
+    public AudioSource audioKey; // 열쇠 먹을 때 소리
+    public AudioSource audioButton; // 감옥 버튼
+    public AudioSource audioAttack; // 타임어택
+
+
     private void Start()
     {
 
@@ -136,8 +144,30 @@ public class PlayerMove : MonoBehaviour
                 if (item != null)
                 {
                     item.Interact();
+                    if (!audioStar.isPlaying)  // 여기 오디오
+                        audioStar.Play();
                 }
             }
+
+            if (hit.CompareTag("Key"))
+            {
+                if (!audioKey.isPlaying)
+                    audioKey.Play();
+
+            }
+
+            if (hit.CompareTag("Button"))
+            {
+                if (!audioButton.isPlaying)
+                {
+                    audioButton.Play();
+                    audioAttack.Play();
+                }
+                
+
+            }
+
+
 
             if (hit.CompareTag("AttackItem"))
             {

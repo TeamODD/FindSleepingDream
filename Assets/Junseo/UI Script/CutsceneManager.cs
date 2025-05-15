@@ -14,7 +14,10 @@ public class CutsceneManager : MonoBehaviour
 
     private Coroutine currentSequence = null;
 
-private IEnumerator WaitForKeyDownUnscaled(KeyCode key)
+    
+
+
+    private IEnumerator WaitForKeyDownUnscaled(KeyCode key)
 {
     // 먼저 눌린 상태면 무시 (이전 프레임 잔재)
     yield return new WaitUntil(() => !Input.GetKey(key));

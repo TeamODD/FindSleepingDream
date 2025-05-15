@@ -14,6 +14,8 @@ TagManager:
   - Platform
   - Enemy
   - Obstacle
+  - Key
+  - Button
   layers:
   - Default
   - TransparentFX
