@@ -5,6 +5,9 @@ public class ChaseAnimationChange : MonoBehaviour
     private Animator animator;
     private bool IsChase = false;
 
+    public Transform player;          //  플레이어 트랜스폼 연결
+    public float stopChaseX = 286f;     //   좌표 기준 (ex: 0 이하로 가면 원복)
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -12,17 +15,11 @@ public class ChaseAnimationChange : MonoBehaviour
 
     void Update()
     {
-        // 아직 추격 상태가 아니고, x 좌표가 0 초과면 추격 모드로 전환
-        //if (!IsChase && Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    IsChase = true;
-        //    animator.SetBool("IsChase", true);
-        //    Debug.Log("[PlayerMove] 추격 애니메이션 상태 진입!");
-        //}
-        if (IsChase && Input.GetKeyDown(KeyCode.C))
+        if (IsChase && player.position.x > stopChaseX)
         {
             IsChase = false;
             animator.SetBool("IsChase", false);
+            Debug.Log("[ChaseAnimationChange] 추격 종료: 원복됨");
         }
     }
 
@@ -30,5 +27,6 @@ public class ChaseAnimationChange : MonoBehaviour
     {
         IsChase = true;
         animator.SetBool("IsChase", true);
+        Debug.Log("[ChaseAnimationChange] 추격 시작!");
     }
 }
