@@ -15,11 +15,15 @@ public class BGMTrigger : MonoBehaviour
     public BGMZone[] bgmZones;
 
     private int currentZoneIndex = -1;
-    private AudioClip currentClip = null;
 
     void Update()
     {
-        if (player == null || bgmZones == null || bgmZones.Length == 0) return;
+
+        if (player == null || bgmSource == null || bgmZones == null || bgmZones.Length == 0)
+        {
+            Debug.LogWarning("🚫 필수 컴포넌트가 없습니다.");
+            return;
+        }
 
         float px = player.position.x;
         int matchedIndex = -1;
@@ -37,28 +41,33 @@ public class BGMTrigger : MonoBehaviour
         {
             if (matchedIndex == -1)
             {
-                // 영역 벗어나면 음악 끄기
+                Debug.Log("🛑 BGM 정지됨");
                 bgmSource.Stop();
-                currentClip = null;
-                currentZoneIndex = -1;
+                bgmSource.clip = null;
             }
             else
             {
-                PlayZoneBGM(matchedIndex);
+                var newClip = bgmZones[matchedIndex].bgmClip;
+                if (newClip != null)
+                {
+                    Debug.Log("▶ BGM 재생: " + newClip.name);
+                    bgmSource.Stop();
+                    bgmSource.clip = newClip;
+                    bgmSource.loop = true;
+                    bgmSource.Play();  // 여기가 실제 재생 트리거
+
+                    Debug.Log("✅ Play() 호출됨");
+
+                }
+                else
+                {
+                    Debug.LogWarning("⚠️ bgmZones[" + matchedIndex + "]에 clip이 비어 있음");
+                }
             }
+
+            currentZoneIndex = matchedIndex;
         }
-    }
+        Debug.Log("현재 clip: " + bgmSource.clip?.name);
 
-    void PlayZoneBGM(int index)
-    {
-        AudioClip newClip = bgmZones[index].bgmClip;
-        if (newClip == null || newClip == currentClip) return;
-
-        bgmSource.Stop(); // 혹시 이전 음악이 남아 있을 수도 있으므로 stop 먼저
-        bgmSource.PlayOneShot(newClip);
-
-        currentClip = newClip;
-        currentZoneIndex = index;
-        Debug.Log("▶ 구간 BGM 재생: " + newClip.name);
     }
 }
