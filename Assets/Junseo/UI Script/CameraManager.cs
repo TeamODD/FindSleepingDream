@@ -18,6 +18,10 @@ public class CameraManager : MonoBehaviour
 
     private CameraState nextStateAfterEnter; // 보스 진입 시 어떤 상태로 바뀔지 저장
 
+    [Header("보스 연출 카메라 옵션")]
+    public float midPointOffsetBoss1 = 0f;
+    public float midPointOffsetBoss2 = 0f;
+
 
 
     private enum CameraState
@@ -43,8 +47,12 @@ public class CameraManager : MonoBehaviour
     public GameObject boss2Object;
     public Transform fixedTargetObject2;
 
-    [Header("보스 연출 카메라 옵션")]
-    public float midPointOffset = 0f;
+    [Header("카메라 줌 설정")]
+public float defaultSize = 5f;
+public float boss1ZoomSize = 7f;
+public float boss2ZoomSize = 7f;
+public float zoomLerpSpeed = 3f;
+
 
     public static int CurrentZone { get; private set; }
 
@@ -52,6 +60,7 @@ public class CameraManager : MonoBehaviour
     {
         hardTarget = transform.position;
         CurrentZone = 0;
+        Camera.main.orthographicSize = defaultSize;
     }
 
     void Update()
@@ -69,7 +78,28 @@ public class CameraManager : MonoBehaviour
         state = nextStateAfterEnter;
     }
     return;
+}float targetZoom = defaultSize;
+
+switch (state)
+{
+    case CameraState.FixedToBoss:
+        targetZoom = boss1ZoomSize;
+        break;
+    case CameraState.FixedToBoss2:
+        targetZoom = boss2ZoomSize;
+        break;
+    default:
+        targetZoom = defaultSize;
+        break;
 }
+
+Camera.main.orthographicSize = Mathf.Lerp(
+    Camera.main.orthographicSize,
+    targetZoom,
+    Time.deltaTime * zoomLerpSpeed
+);
+
+
 
 
         if (isReturningFromBoss)
@@ -146,7 +176,7 @@ public class CameraManager : MonoBehaviour
 
     isEnteringBoss = true;
     float midX = (player.position.x + fixedTargetObject.position.x) / 2f;
-    enterTarget = new Vector3(midX + midPointOffset, 0f, -5f);
+    enterTarget = new Vector3(midX + midPointOffsetBoss1, 0f, -5f);
 
     nextStateAfterEnter = CameraState.FixedToBoss; // ✅ 상태 저장
 }
@@ -162,7 +192,7 @@ public class CameraManager : MonoBehaviour
 
     isEnteringBoss = true;
     float midX = (player.position.x + fixedTargetObject2.position.x) / 2f;
-    enterTarget = new Vector3(midX + midPointOffset, 0f, -5f);
+    enterTarget = new Vector3(midX + midPointOffsetBoss2, 0f, -5f);
 
     nextStateAfterEnter = CameraState.FixedToBoss2; // ✅ 상태 저장
 }
@@ -174,7 +204,7 @@ public class CameraManager : MonoBehaviour
         if (player != null && fixedTargetObject != null)
         {
             float midX = (player.position.x + fixedTargetObject.position.x) / 2f;
-            float targetX = midX + midPointOffset;
+            float targetX = midX + midPointOffsetBoss1;
             transform.position = new Vector3(targetX, 0f, -5f);
         }
 
@@ -197,7 +227,7 @@ public class CameraManager : MonoBehaviour
         if (player != null && fixedTargetObject2 != null)
         {
             float midX = (player.position.x + fixedTargetObject2.position.x) / 2f;
-            float targetX = midX + midPointOffset;
+            float targetX = midX + midPointOffsetBoss2;
             transform.position = new Vector3(targetX, 0f, -5f);
         }
 
