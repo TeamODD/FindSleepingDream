@@ -6,14 +6,7 @@ public class PauseMenu : MonoBehaviour
     public static bool IsPaused = false;
 
     public GameObject pausePanel;
-    public Slider volumeSlider;
-
-    void Start()
-    {
-        pausePanel.SetActive(false);
-        volumeSlider.onValueChanged.AddListener(SetVolume);
-        AudioListener.volume = volumeSlider.value;
-    }
+   
 
     void Update()
     {
@@ -35,10 +28,6 @@ public class PauseMenu : MonoBehaviour
         TogglePause();
     }
 
-    public void SetVolume(float value)
-    {
-        AudioListener.volume = value;
-    }
 
     public void QuitGame()
     {

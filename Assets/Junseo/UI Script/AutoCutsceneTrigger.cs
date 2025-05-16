@@ -16,7 +16,6 @@ public class CutsceneStep
     public int cutsceneIndex;
     public float waitTime = 2f;
     public TransitionType transition = TransitionType.None;
-    public AudioClip sfx;
     public UnityEvent onTransition;
     public bool isFinalStep = false;
     public bool autoCloseFinal = false;  // ✅ 마지막 컷씬 자동 종료 여부
@@ -27,7 +26,7 @@ public class AutoCutsceneTrigger : MonoBehaviour
 {
     public List<CutsceneStep> steps = new List<CutsceneStep>();
     public float fadeDuration = 1f;
-    public AudioSource audioSource;
+    
 
     private bool triggered = false;
 
@@ -53,9 +52,6 @@ public class AutoCutsceneTrigger : MonoBehaviour
         foreach (var step in steps)
         {
             step.onTransition?.Invoke();
-
-            if (step.sfx != null && audioSource != null)
-                audioSource.PlayOneShot(step.sfx);
 
             if (step.transition == TransitionType.Fade)
                 yield return FadeOut(image, fadeDuration);
