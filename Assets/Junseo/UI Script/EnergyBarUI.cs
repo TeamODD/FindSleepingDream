@@ -28,7 +28,6 @@ public class EnergyBarUI : MonoBehaviour
         {
             float energy = playerStatus.GetEnergy();             // ������ �� �޾ƿ��� (��: 75)
             float ratio = Mathf.Clamp01(energy / 100f);          // 0~1 ���̷� ��ȯ
-            Debug.Log($"[EnergyBarUI] energy: {energy}, ratio: {ratio}");
             barFillImage.fillAmount = ratio;                     // �̹��� �� ä���
         }
     }

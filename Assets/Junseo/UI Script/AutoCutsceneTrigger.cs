@@ -86,6 +86,9 @@ public class AutoCutsceneTrigger : MonoBehaviour
         }
 
         Time.timeScale = 1f;
+         yield return new WaitForSecondsRealtime(5f);
+    Destroy(gameObject);
+
     }
 
     private IEnumerator FadeOut(Image img, float duration)

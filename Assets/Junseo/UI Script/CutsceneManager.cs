@@ -42,7 +42,6 @@ public class CutsceneManager : MonoBehaviour
         showTimer = 0f;
 
         Time.timeScale = 0f;
-        Debug.Log($"컷씬 실행! Index: {index}");
     }
 
     public void HideCutscene(bool skipTimeResume = false)

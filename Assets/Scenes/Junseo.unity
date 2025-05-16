@@ -2149,6 +2149,9 @@ MonoBehaviour:
   videoPlayer: {fileID: 445273715}
   videoIfExists: {fileID: 32900000, guid: 6534f8a79467b764cbe0c5e9bd510c44, type: 3}
   videoIfDestroyed: {fileID: 32900000, guid: cae8be5ef9df1004faa7d3a3712b852a, type: 3}
+  rawImageObject: {fileID: 1441417758}
+  rawImage: {fileID: 1441417760}
+  sceneToLoad: MainMenu
 --- !u!61 &263313914
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3383,7 +3386,6 @@ GameObject:
   - component: {fileID: 439216023}
   - component: {fileID: 439216026}
   - component: {fileID: 439216025}
-  - component: {fileID: 439216027}
   m_Layer: 0
   m_Name: Enemy2
   m_TagString: Untagged
@@ -3551,19 +3553,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneIndices: 0e000000
---- !u!114 &439216027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 439216019}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360f1cf62860ca447a385f2b6d6f5462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetX: 270
 --- !u!1 &445273714
 GameObject:
   m_ObjectHideFlags: 0
@@ -5085,7 +5074,6 @@ GameObject:
   m_Component:
   - component: {fileID: 706261163}
   - component: {fileID: 706261162}
-  - component: {fileID: 706261161}
   - component: {fileID: 706261164}
   m_Layer: 0
   m_Name: Chase1CutTrig
@@ -5094,19 +5082,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &706261161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706261160}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cutsceneIndices: 06000000
 --- !u!61 &706261162
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5423,7 +5398,6 @@ GameObject:
   m_Component:
   - component: {fileID: 731186409}
   - component: {fileID: 731186408}
-  - component: {fileID: 731186407}
   - component: {fileID: 731186410}
   m_Layer: 0
   m_Name: Chase2CutTrig
@@ -5432,19 +5406,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &731186407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 731186406}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cutsceneIndices: 07000000
 --- !u!61 &731186408
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5544,7 +5505,6 @@ GameObject:
   - component: {fileID: 736546082}
   - component: {fileID: 736546084}
   - component: {fileID: 736546083}
-  - component: {fileID: 736546085}
   m_Layer: 0
   m_Name: UpperArm
   m_TagString: Untagged
@@ -5698,19 +5658,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.0475006, y: 2.9659736}
   m_EdgeRadius: 0
---- !u!114 &736546085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736546079}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360f1cf62860ca447a385f2b6d6f5462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetX: 10
 --- !u!1001 &739482510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5905,7 +5852,6 @@ GameObject:
   - component: {fileID: 761545045}
   - component: {fileID: 761545047}
   - component: {fileID: 761545046}
-  - component: {fileID: 761545048}
   m_Layer: 0
   m_Name: UnderArm
   m_TagString: Untagged
@@ -6057,19 +6003,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 13.771606, y: 1.3586979}
   m_EdgeRadius: 0
---- !u!114 &761545048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761545042}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360f1cf62860ca447a385f2b6d6f5462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetX: 10
 --- !u!1 &770373987
 GameObject:
   m_ObjectHideFlags: 0
@@ -10483,7 +10416,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1326234176}
   - component: {fileID: 1326234175}
-  - component: {fileID: 1326234174}
   - component: {fileID: 1326234177}
   - component: {fileID: 1326234178}
   m_Layer: 0
@@ -10493,19 +10425,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1326234174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326234173}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cutsceneIndices: 0100000002000000030000000400000005000000
 --- !u!61 &1326234175
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11736,10 +11655,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1267186005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -960, y: -540}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1441417760
 MonoBehaviour:
@@ -11754,7 +11673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13648,7 +13567,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1790686417}
   - component: {fileID: 1790686416}
-  - component: {fileID: 1790686415}
   - component: {fileID: 1790686418}
   m_Layer: 0
   m_Name: CutsceneTriggerOb (1)
@@ -13657,19 +13575,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1790686415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790686414}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e86c66a31660884cba67448b3f0ad66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cutsceneIndices: 0f00000010000000
 --- !u!61 &1790686416
 BoxCollider2D:
   m_ObjectHideFlags: 0

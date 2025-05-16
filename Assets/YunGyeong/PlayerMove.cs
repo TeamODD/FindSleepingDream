@@ -290,9 +290,7 @@ private IEnumerator BlockMoveTemporarily(float seconds)
         animator.SetBool("Walk", isWalking && !isCrouching && !isSprinting);
         animator.SetBool("IsCrouching", isCrouching);
 
-        // 디버그 및 속도 조정
-        Debug.Log("Move Value: " + moveAction.ReadValue<Vector2>());
-
+        
         speed = isCrouching ? originalSpeed * crouchSpeedMultiplier : originalSpeed;
 
             // 조력자 거리 경고

@@ -16,7 +16,6 @@ public class ParallaxLayer : MonoBehaviour
 
     void LateUpdate()
 {
-    Debug.Log($"[{name}] 현재 zone: {CameraManager.CurrentZone}, 내 visibleZone: {visibleZone}");
 
     CheckVisibility();
 
