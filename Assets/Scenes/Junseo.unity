@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 490508155975219528, guid: 1f627eaf5be23e943959b8d2ce2ed1b7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.65
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 490508155975219528, guid: 1f627eaf5be23e943959b8d2ce2ed1b7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2642,7 +2642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &439216020
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9634,7 +9634,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.48, y: 1.86}
+    oldSize: {x: 0.6, y: 2.325}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -10223,7 +10223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
