@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 63ab36fea2da1794bae3706163bef08f
+guid: a0b9f3da5ac65514f9b609aa020a584d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8074719161897145545
-    second: RedEyeRobot2_0
+      213: -2348151495860311602
+    second: award2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RedEyeRobot2_0
+      name: award2_0
       rect:
         serializedVersion: 2
         x: 28
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c45be9cb4a2f0070800000000000000
-      internalID: 8074719161897145545
+      spriteID: ec9a172d7a0b96fd0800000000000000
+      internalID: -2348151495860311602
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RedEyeRobot2_0: 8074719161897145545
+      award2_0: -2348151495860311602
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
