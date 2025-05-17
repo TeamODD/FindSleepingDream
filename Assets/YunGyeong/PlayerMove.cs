@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic; // 인벤토리용
 using System.Collections;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class PlayerMove : MonoBehaviour
 {
