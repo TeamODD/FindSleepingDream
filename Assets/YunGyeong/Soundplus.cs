@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// 웃음소리
-
 public class Soundplus : MonoBehaviour
 {
     [System.Serializable]
@@ -10,38 +8,58 @@ public class Soundplus : MonoBehaviour
         public float fromX;
         public float toX;
         public AudioClip clip;
-        public float volume = 1.0f; // 배경음보다 살짝 큰 소리
-        [HideInInspector] public bool hasPlayed = false;
+        public float volume = 1.0f;
+        //  [HideInInspector] public bool hasPlayed = false; // ← 제거됨
     }
 
     public Transform player;
     public AudioSource sfxSource;
     public SFXZone[] zones;
 
+    // 추가됨: 현재 재생 중인 구간 인덱스
+    private int currentZoneIndex = -1;
+
     void Update()
     {
         if (player == null || sfxSource == null || zones == null) return;
 
         float px = player.position.x;
+        int matchedIndex = -1;
 
-        foreach (var zone in zones)
+        for (int i = 0; i < zones.Length; i++)
         {
+            var zone = zones[i];
             if (zone.clip == null) continue;
 
             if (px >= zone.fromX && px <= zone.toX)
             {
-                if (!zone.hasPlayed)
-                {
-                    sfxSource.PlayOneShot(zone.clip, zone.volume);
-                    Debug.Log($" 자동 효과음 재생: {zone.clip.name}");
-                    zone.hasPlayed = true;
-                }
+                matchedIndex = i;
+                break;
             }
-            else
-            {
-                // 범위 벗어나면 다시 재생 가능하도록 리셋
-                zone.hasPlayed = false;
-            }
+        }
+
+        //  조건 변경: 이전과 다른 구간일 경우에만 재생
+        if (matchedIndex != -1 && matchedIndex != currentZoneIndex)
+        {
+            //  이전 소리 끊기
+            sfxSource.Stop();
+
+            //  PlayOneShot → Play 방식으로 변경
+            sfxSource.clip = zones[matchedIndex].clip;
+            sfxSource.volume = zones[matchedIndex].volume;
+            sfxSource.Play();
+
+            //  현재 구간 기억
+            currentZoneIndex = matchedIndex;
+
+            Debug.Log($" 자동 효과음 재생 (단일): {zones[matchedIndex].clip.name}");
+        }
+
+        // 구간 밖으로 나갔으면 소리 멈춤
+        if (matchedIndex == -1 && currentZoneIndex != -1)
+        {
+            sfxSource.Stop();
+            currentZoneIndex = -1;
         }
     }
 }
