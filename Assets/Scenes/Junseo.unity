@@ -838,7 +838,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -8904085077888004532, guid: 3a93c084cd7dbd944bca79e5b5b3d572, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3752,7 +3752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b2ae1940f2b4f47aea98a89865e379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3.6
+  moveSpeed: 3.5
   moveDelay: 2
   endX: 273
   timer: 0
@@ -7575,7 +7575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &905737708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11504,7 +11504,7 @@ MonoBehaviour:
     autoCloseFinal: 0
     finalExitKey: 0
     sfxDelay: 0
-    sfxDuration: 20
+    sfxDuration: 20.5
   - cutsceneIndex: 2
     waitTime: 4
     transition: 0
@@ -12536,7 +12536,7 @@ MonoBehaviour:
   fixedTargetObject: {fileID: 2121110703}
   boss2Triggered: 0
   boss2TriggerX: 218
-  boss2EndOffset: 55
+  boss2EndOffset: 70
   boss2Object: {fileID: 439216019}
   fixedTargetObject2: {fileID: 439216021}
   defaultSize: 5
@@ -14170,6 +14170,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: abc0f5958f094ca42ab419cd52064c17, type: 3}
   - {fileID: -3095667689817373611, guid: 0572cb98bd6cfe547a3649040a2c8c68, type: 3}
   - {fileID: -855298285791758126, guid: 8c164dbaffc4c8c40ac9908d673b939c, type: 3}
+  - {fileID: 1275228042825215772, guid: 8ffaf951b91579d4f9cfb287d2811aa4, type: 3}
   exitKey: 122
 --- !u!4 &1659656571
 Transform:
@@ -15306,7 +15307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1990486443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15320,10 +15321,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 983235236}
-  targetPosition: {x: 288, y: 0, z: 0}
-  positionThreshold: 0.5
+  startX: 288
+  endX: 304
+  duration: 15
   timerText: {fileID: 433621448}
-  duration: 15.1
+  cutsceneIndexToPlay: 17
+  playerTeleportPosition: {x: 290, y: -4.7, z: 0}
 --- !u!4 &1990486444
 Transform:
   m_ObjectHideFlags: 0
@@ -15595,6 +15598,52 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &2056385232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2056385234}
+  - component: {fileID: 2056385233}
+  m_Layer: 0
+  m_Name: GameOverResetManager (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2056385233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056385232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67250b1c7b6793748878efdd1cafd544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCutsceneIndex: 14
+  objectToReset: {fileID: 439216019}
+--- !u!4 &2056385234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056385232}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 212.67354, y: -0.45320693, z: -0.13691564}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2061690627
 GameObject:
   m_ObjectHideFlags: 0
@@ -16673,6 +16722,7 @@ SceneRoots:
   - {fileID: 682572229}
   - {fileID: 1945516870}
   - {fileID: 1516210815}
+  - {fileID: 2056385234}
   - {fileID: 439216021}
   - {fileID: 263313915}
   - {fileID: 445273716}
