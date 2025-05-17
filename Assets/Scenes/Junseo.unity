@@ -9392,7 +9392,7 @@ MonoBehaviour:
   - fromX: 70
     toX: 89
     clip: {fileID: 8300000, guid: 7fba6c0f6c588834c8c6e4d299057a8f, type: 3}
-    volume: 4
+    volume: 5
   - fromX: 51.32
     toX: 55
     clip: {fileID: 8300000, guid: d91eae9c22330994fa9dca202f25836d, type: 3}
@@ -10725,7 +10725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7
+      value: 84.41
       objectReference: {fileID: 0}
     - target: {fileID: 4048032679393195979, guid: cbe317a69adaf7147891c39050689f92, type: 3}
       propertyPath: m_LocalPosition.y
