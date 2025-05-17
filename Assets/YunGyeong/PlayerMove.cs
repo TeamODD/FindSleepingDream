@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic; // 인벤토리용
 using System.Collections;
+using static UnityEditor.Progress;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -44,8 +45,15 @@ public class PlayerMove : MonoBehaviour
     private GameObject throwableItemPrefab = null;
 
     // =============================
+    [Header("효과음 설정")]
+    public AudioSource AudioStar;
+    public AudioSource AudioKey;
+    
 
-private bool isInputBlocked = false;
+
+
+
+    private bool isInputBlocked = false;
 
 public void SetInputBlocked(bool blocked)
 {
@@ -190,17 +198,30 @@ private IEnumerator BlockMoveTemporarily(float seconds)
                 if (item != null)
                 {
                     item.Interact();
+                    if (!AudioStar.isPlaying)
+                    {
+                        AudioStar.Play();
+
+                    }
                 }
             }
 
-            if (hit.CompareTag("AttackItem"))
+            if (hit.CompareTag("Key"))
             {
-                var attackItem = hit.GetComponent<AttackItem>();
-                if (attackItem != null && !attackItem.IsUsed)
+                var item = hit.GetComponent<IInteractable>();
+                if (item != null)
                 {
-                    attackItem.Activate();
+                    item.Interact();
+                    if (!AudioKey.isPlaying)
+                    {
+                        AudioKey.Play();
+
+                    }
                 }
             }
+
+
+
         }
     }
 
@@ -360,6 +381,8 @@ private IEnumerator BlockMoveTemporarily(float seconds)
         Debug.Log($"[인벤토리] {itemName} 획득됨");
         inventoryManager?.AddItem(itemName); //  for UI
     }
+
+
 
     public bool HasItem(string itemName)
     {

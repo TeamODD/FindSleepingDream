@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// ¿ôÀ½¼Ò¸®
+
 public class Soundplus : MonoBehaviour
 {
     [System.Serializable]
