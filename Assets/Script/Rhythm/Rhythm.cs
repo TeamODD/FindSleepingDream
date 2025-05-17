@@ -40,6 +40,7 @@ public class Rhythm : MonoBehaviour
 
     public GameObject playerToMove;          // 성공 시 이동 대상
     public float successTargetX = 0f;        // 성공 시 X 위치
+    public float successTarget2X = 0f;
     public int failureCutsceneIndex = 0;     // 실패 시 컷씬 인덱스
 
     private List<Direction> directions = new List<Direction>();
@@ -141,11 +142,15 @@ public class Rhythm : MonoBehaviour
     foreach (GameObject arrow in circles)
         arrow.SetActive(false);
 
-    // 순간이동
-    if (playerToMove != null)
-    {
-        Vector3 current = playerToMove.transform.position;
-        playerToMove.transform.position = new Vector3(successTargetX, current.y, current.z);
+        // 순간이동
+        if (playerToMove != null)
+        {
+            Vector3 current = playerToMove.transform.position;
+            playerToMove.transform.position = new Vector3(successTargetX, current.y, current.z);
+
+             yield return new WaitForSeconds(0.01f);
+        
+        playerToMove.transform.position = new Vector3(successTarget2X, current.y, current.z);
     }
 
     // Rhythm 오브젝트는 잠시 후에 끄기

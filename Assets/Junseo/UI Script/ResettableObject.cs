@@ -23,13 +23,14 @@ public class ResettableObject : MonoBehaviour
 
     public void ResetObject()
 {
-    gameObject.SetActive(true);
+    // 위치, 회전 복원
     transform.position = initialPosition;
     transform.rotation = initialRotation;
 
-    // 콜라이더 강제 리셋
+    // 콜라이더 잠깐 껐다 켜기 (트리거 상태 리셋용)
     StartCoroutine(ResetColliderTemporarily());
 
+    // 부착된 스크립트의 OnReset() 호출
     foreach (var script in scripts)
     {
         var type = script.GetType();
@@ -42,6 +43,7 @@ public class ResettableObject : MonoBehaviour
 
     Debug.Log($"{gameObject.name} 리셋됨!");
 }
+
 
 private IEnumerator ResetColliderTemporarily()
 {
