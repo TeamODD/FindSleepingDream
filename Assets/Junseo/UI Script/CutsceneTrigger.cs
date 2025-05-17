@@ -1,19 +1,17 @@
 using UnityEngine;
 
-public class CutsceneTriggerSequence : MonoBehaviour
+public class CutsceneTrigger : MonoBehaviour
 {
-    public int[] cutsceneIndices;           // 🔥 Inspector에서 설정
-    private bool triggered = false;
+    public int[] cutsceneIndices;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (triggered || !other.CompareTag("Player")) return;
-        triggered = true;
+        if (!other.CompareTag("Player")) return;
 
-        var manager = FindFirstObjectByType<CutsceneManager>();
-        if (manager != null)
+        foreach (int index in cutsceneIndices)
         {
-            manager.ShowCutsceneSequence(cutsceneIndices);
+            Debug.Log($"🎬 컷씬 {index} 실행 (무제한 반복 가능)");
+            FindFirstObjectByType<CutsceneManager>()?.ShowCutsceneSequence(index);
         }
     }
 }
